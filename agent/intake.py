@@ -21,6 +21,10 @@ The text after "---" gives today's date and the member's open tickets."""
 
 CANCEL_INTENT = re.compile(r"\bcancel|call (?:it )?off|don'?t need|do not need|no longer|not needed"
                            r"|plans? (?:have )?changed|scratch that|forget it|nahi chahiye|mat karo|rehne do", re.I)
+CHANGE_INTENT = re.compile(r"\bmake it\b|\binstead\b|\bchange\b|\bmove (?:it|the|our)\b|\bshift\b|\bresched"
+                           r"|\bpostpone|\bprepone|\b(?:one|two|three|\d) more\b|\bearlier\b|\blater\b", re.I)
+REQUEST_WORDS = re.compile(r"\breserve|\bbook|\barrange|\borgani[sz]e|\bget (?:us|me)\b|can you (?:get|find|send|do)"
+                           r"|\bplease (?:get|find|send|sort)|\bneed (?:a|an|to)\b|kar do|karwa do|bhej do", re.I)
 DINING_WORDS = {"dining", "restaurant", "dinner", "lunch", "breakfast", "brunch", "table", "food"}
 DINING_SIGNAL = re.compile(r"\btable\b|dinner|lunch|brunch|breakfast|restaurant|reservation|\bdine\b|khana", re.I)
 OTHER_SIGNALS = {
@@ -45,6 +49,15 @@ class Intake:
     @property
     def wants_cancel(self) -> bool:
         return bool(CANCEL_INTENT.search(self.text))
+
+    @property
+    def wants_change(self) -> bool:
+        return bool(CHANGE_INTENT.search(self.text))
+
+    def looks_like_request(self, now: datetime, venues: list[str]) -> bool:
+        """A plain-code second opinion, used only to catch requests the model ignored."""
+        when = parse_date(self.text, now) and parse_time(self.text)
+        return bool(REQUEST_WORDS.search(self.text) or parse_venue(self.text, venues) or when)
 
 
 def normalise_category(value) -> str:

@@ -22,6 +22,7 @@ from .verify import read_reply
 
 CHASE_AFTER_MINUTES = 20      # silence before the one reminder
 HANDOVER_AFTER_MINUTES = 45   # silence (since the job was sent) before a human takes over
+APPROVAL_NUDGE_MINUTES = 30   # a proposal nobody approved gets one reminder alert
 MAX_MODEL_STEPS = 8
 SEND_ATTEMPTS = 3             # retries reuse the same idempotency key, so they cannot double-send
 
@@ -109,9 +110,14 @@ class Concierge:
                 self.escalate(ticket, f"Could not understand the vendor's reply: {text!r}")
 
     def tick(self) -> None:
-        """Called once every fake minute: one reminder to a silent vendor, then a human."""
+        """Called once every fake minute: one reminder to a silent vendor, then a human.
+        Also nudges the team once about a proposal nobody has approved."""
         with self.store.lock:
             now = self.clock.now
+            for p in self.store.proposals.values():
+                if p.status == "pending" and self.clock.minutes_since(p.created_at) >= APPROVAL_NUDGE_MINUTES:
+                    self.alert(p.ticket_id, f"Proposal {p.proposal_id} has waited {APPROVAL_NUDGE_MINUTES}+ minutes "
+                                            f"for approval.")
             for ticket in list(self.store.tickets.values()):
                 if ticket.status != "sent" or ticket.sent_at is None:
                     continue
@@ -276,9 +282,19 @@ class Concierge:
                 self.propose_job(ticket, vendor)
             else:
                 self.escalate(ticket, f"No vendor handles {ticket.category} requests; please arrange it by hand.")
-        if intake.wants_cancel and not intake.cancelled and not raised_alert:
-            self.alert(intake.ticket_id, f"The message in {intake.group_id} looks like a cancellation, but nothing was "
-                                         f"cancelled: {intake.text!r}. Please check.")
+        if intake.wants_cancel:
+            if not intake.cancelled and not raised_alert:
+                self.alert(intake.ticket_id, f"The message in {intake.group_id} looks like a cancellation, but nothing "
+                                             f"was cancelled: {intake.text!r}. Please check.")
+            return
+        earlier = [t for t in self.store.live_tickets(intake.member_id) if t.ticket_id != intake.ticket_id]
+        if earlier and intake.wants_change:
+            ids = ", ".join(t.ticket_id for t in earlier)
+            self.alert(earlier[-1].ticket_id, f"The member may want to change an existing booking ({ids}): "
+                                              f"{intake.text!r}. Nothing was changed or sent; please check with them.")
+        elif ticket is None and not raised_alert and intake.looks_like_request(self.clock.now, self.house["venues"]):
+            self.alert(None, f"Possible request in {intake.group_id} that was not actioned: {intake.text!r}. "
+                             f"Please check.")
 
     def _default_vendor(self, category: str) -> str | None:
         vendors = [v for v in self.data.vendors.values() if category in v["categories"]]
