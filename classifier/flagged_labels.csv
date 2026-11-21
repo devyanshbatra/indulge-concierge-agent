@@ -1,0 +1,55 @@
+text,given_label,p_given_label,action
+"Sure, sounds good",request,,relabelled not_request (same template is not_request 34/36 times)
+Happy Diwali to the whole team 🪔,request,,relabelled not_request (same template is not_request 41/44 times)
+Happy Diwali to the whole team 🪔,request,,relabelled not_request (same template is not_request 41/44 times)
+my new number is 98260 12345,request,,relabelled not_request (same template is not_request 46/48 times)
+Ok noted !!,request,,relabelled not_request (same template is not_request 51/54 times)
+Can someone call me about the London trip,not_request,,relabelled request (same template is request 4/5 times)
+"Sure, sounds good 🙏",request,,relabelled not_request (same template is not_request 34/36 times)
+"<voice note, 0:54>",request,,relabelled not_request (same template is not_request 38/39 times)
+what happened to the a cake? still not here,not_request,,relabelled request (same template is request 6/7 times)
+No worries,request,,relabelled not_request (same template is not_request 49/50 times)
+Happy Diwali to the whole team 🪔,request,,relabelled not_request (same template is not_request 41/44 times)
+Thank you so much 🙏,request,,relabelled not_request (same template is not_request 33/34 times)
+Can you push the dinner to 9 baje?,not_request,,relabelled request (same template is request 6/7 times)
+Ok noted,request,,relabelled not_request (same template is not_request 51/54 times)
+Will let you know about next Thursday,request,,relabelled not_request (same template is not_request 4/5 times)
+"I booked Casa Lumen myself, all sorted",request,,relabelled not_request (same template is not_request 4/5 times)
+extend the goa stay by two nights please,not_request,,relabelled request (same template is request 3/4 times)
+Good morning ☀️,request,,relabelled not_request (same template is not_request 45/47 times)
+👍,request,,relabelled not_request (same template is not_request 38/39 times)
+"Just reached The Blue Door, table is lovely",request,,relabelled not_request (same template is not_request 4/5 times)
+Ok noted,request,,relabelled not_request (same template is not_request 51/54 times)
+"The dinner at Saffron Terrace was amazing, thank you",request,,relabelled not_request (same template is not_request 4/5 times)
+my new number is 98170 12345,request,,relabelled not_request (same template is not_request 46/48 times)
+Ha that's funny,request,,relabelled not_request (same template is not_request 41/42 times)
+Good morning ☀️?,request,,relabelled not_request (same template is not_request 45/47 times)
+"I booked Mirabelle myself, all sorted",request,,relabelled not_request (same template is not_request 4/5 times)
+Will let you know about this weekend,request,,relabelled not_request (same template is not_request 3/4 times)
+Please cancel the Mirabelle table for Saturday,not_request,0.015,left out of training
+Need a table for 4 at Seventh Moon today,not_request,0.018,left out of training
+Arjun loved flowers! 🙂,request,0.021,left out of training
+bhai Juniper Room mein next Thursday 3 people ka table kar do 🙂,not_request,0.029,left out of training
+Pls check if Casa Lumen has a table kal,not_request,0.030,left out of training
+Need tickets for the F1 in Zurich tonight,not_request,0.033,left out of training
+bhai The Blue Door mein this weekend 3 people ka table kar do,not_request,0.035,left out of training
+Can you find a good villa in Goa for today? 6 log,not_request,0.036,left out of training
+pls book a table at Mirabelle next Thursday 9 baje,not_request,0.037,left out of training
+pls book a table at Saffron Terrace next Thursday around 9,not_request,0.042,left out of training
+Change the Casa Lumen booking to 8 pm instead,not_request,0.052,left out of training
+Can you push the dinner to around 9? thx,not_request,0.055,left out of training
+Need tickets for the F1 in Bali tomorrow 🙏,not_request,0.060,left out of training
+bhai seventh moon mein tomorrow just me and wife ka table kar do,not_request,0.063,left out of training
+"mom wants a cake, can you source it?",not_request,0.083,left out of training
+Kindly reserve a spa slot for Anjali kal 7.30,not_request,0.088,left out of training
+Any update on the Casa Lumen booking?,not_request,0.090,left out of training
+bhai Juniper Room mein Sunday just me and wife ka table kar do asap,not_request,0.106,left out of training
+"mom wants a Rolex Daytona, can you source it?",not_request,0.110,left out of training
+Meher loved a birthday hamper!,request,0.124,left out of training
+meher loved a birthday hamper!,request,0.124,left out of training
+need tickets for the f1 in udaipur next thursday,not_request,0.146,left out of training
+Kindly reserve a spa slot for the kids today 1 pm,not_request,0.150,left out of training
+Kindly reserve a spa slot for mom the 14th lunch time,not_request,0.160,left out of training
+Kindly reserve a spa slot for the kids today 9 baje,not_request,0.216,left out of training
+Kindly reserve a spa slot for Arjun tomorrow around 9,not_request,0.227,left out of training
+kindly reserve a spa slot for arjun the 14th lunch time,not_request,0.228,left out of training

@@ -1,0 +1,106 @@
+﻿  ok   0.72s  request      Could you line up a driver for us from the station at 6?
+  ok   0.63s  request      We'd love a quiet table somewhere Italian on Friday evening
+  ok   0.65s  request      Is there any chance of getting into Nobu this weekend?
+  ok   0.59s  request      Please send a bouquet of white lilies to my sister's office tomorrow morning
+  ok   0.60s  request      Can someone sort out a babysitter for Saturday night?
+  ok   0.64s  request      I need two seats on the morning flight to Delhi on the 20th
+  ok   0.59s  request      Find us a beach-facing room in Goa for the long weekend
+  ok   0.61s  request      Get a birthday cake to the house by 5 pm today please
+  ok   0.69s  request      My passport renewal is due — can you help with the appointment?
+  ok   0.57s  request      Any news on the hotel in Udaipur?
+  ok   0.56s  request      The car hasn't turned up yet
+  ok   0.56s  request      Still waiting on the confirmation for tonight
+  ok   0.57s  request      Could you move our lunch to 2 instead of 1?
+  ok   0.63s  request      Make the table for six instead of four please
+  ok   0.61s  request      We can't make it tonight, please call off the booking
+  ok   0.57s  request      Drop the Friday dinner, something came up
+  ok   0.58s  request      Can you check if the spa has anything open at 11?
+  ok   0.52s  request      Arrange a photographer for the anniversary dinner
+  ok   0.52s  request      Organise a pickup from the airport, landing at 11:40 pm
+  ok   0.52s  request      Help me get tickets for the Ed Sheeran show
+  ok   0.52s  request      Could you get a plumber over today? The kitchen tap is leaking
+  ok   0.51s  request      Book my usual at the salon for Thursday
+  ok   0.50s  request      Need a vet appointment for Bruno asap
+  ok   0.54s  request      We want to do a wine tasting next weekend, can you set it up?
+  ok   0.53s  request      Reserve two loungers at the pool club for Sunday
+  ok   0.51s  request      Please find a tutor for maths for my son
+  ok   0.52s  request      Send someone to pick up the dry cleaning
+  ok   0.52s  request      Order flowers for the table, something white
+  ok   0.56s  request      Can you get a private chef for 10 people on the 28th?
+  ok   0.55s  request      Is the yacht still available for Sunday?
+  ok   0.52s  request      Swap the 8 pm reservation to 9:30 if possible
+  ok   0.52s  request      Add one more person to tomorrow's dinner
+  ok   0.52s  request      What time is our transfer tomorrow?
+  ok   0.53s  request      Can you confirm the villa booking please?
+  ok   0.57s  request      Please cancel the massage for tomorrow
+  ok   0.55s  request      I'd like to extend our stay in Bali by a night
+  ok   0.52s  request      Get us into the members' lounge at the airport
+  ok   0.54s  request      Need a table near the window at Koen tonight if they have one
+  ok   0.57s  request      Could you recommend and book somewhere for a business lunch on Tuesday?
+  ok   0.53s  request      Please renew the magazine subscription
+  ok   0.68s  request      Our driver is late, can you call him?
+  ok   0.57s  request      The flowers that arrived are wilted, please sort this out
+  ok   0.56s  request      Can you look for a pet-friendly hotel in Lonavala?
+  ok   0.54s  request      A table for two at Casa Lumen, Friday at 8
+  ok   0.58s  request      Lunch for 3 at Mirabelle on Sunday please
+  ok   0.64s  request      Need a cab to Bandra in 20 minutes
+  ok   0.61s  request      Please arrange a surprise for Divya's birthday on the 12th
+  ok   0.64s  request      Book a doctor's home visit for Dad tomorrow morning
+  ok   0.61s  request      Can you get us concert tickets for Saturday?
+  ok   0.65s  request      Kindly book a court at the tennis club for 7 am
+  ok   0.65s  not_request  Thanks a ton for sorting the car
+  ok   0.58s  not_request  That dinner was incredible
+  ok   0.62s  not_request  Lovely evening, the staff were so kind
+  ok   0.60s  not_request  Haha yes
+  ok   0.62s  not_request  Will do
+  ok   0.66s  not_request  Okay great
+  ok   0.66s  not_request  👌
+  ok   0.60s  not_request  🙏🙏
+  ok   0.70s  not_request  <video>
+  BAD  0.53s  not_request  <voice note, 1:12>
+  ok   0.61s  not_request  <sticker>
+  ok   0.64s  not_request  Got it thanks
+  ok   0.68s  not_request  Perfect thank you
+  ok   0.63s  not_request  Just landed
+  ok   0.71s  not_request  Reached home safely
+  ok   0.69s  not_request  We're at the restaurant now
+  ok   0.67s  not_request  Merry Christmas everyone!
+  ok   0.82s  not_request  Happy new year to the team 🎉
+  ok   0.76s  not_request  Congrats on the new office!
+  ok   0.74s  not_request  Good night
+  ok   0.84s  not_request  Hello!
+  ok   0.71s  not_request  Hope you're all well
+  ok   0.72s  not_request  My email has changed to arjun.m@example.com
+  ok   0.71s  not_request  New address: 14 Carter Road, Bandra
+  ok   0.95s  not_request  This is my wife's number now 98111 22233
+  ok   0.72s  not_request  I sorted the cab myself
+  ok   0.73s  not_request  No need, we found a place already
+  ok   0.77s  not_request  I'll get back to you about Sunday
+  ok   0.73s  not_request  Let me check with Divya and revert
+  ok   0.80s  not_request  Not sure yet about the weekend plans
+  ok   0.77s  not_request  Sorry, wrong group
+  ok   0.80s  not_request  Ignore my last message
+  ok   0.86s  not_request  The kids loved the cake
+  ok   0.85s  not_request  Flowers were beautiful, thank you
+  ok   0.84s  not_request  Weather is amazing here in Goa
+  ok   0.90s  not_request  On my way
+  ok   0.75s  not_request  In a meeting, will call later
+  ok   0.74s  not_request  lol
+  ok   0.85s  not_request  Sounds perfect
+  ok   0.77s  not_request  Noted with thanks
+  ok   0.76s  not_request  Great, see you then
+  ok   0.69s  not_request  Yes that works
+  ok   0.82s  not_request  Cool
+  ok   0.77s  not_request  Thanks, all good now
+  ok   0.68s  not_request  The hotel is stunning
+  ok   0.68s  not_request  We had the best time
+  ok   0.66s  not_request  Happy Holi! 🎨
+  ok   0.69s  not_request  Wishing you a great weekend
+  ok   0.71s  not_request  Just saw the photos, gorgeous
+  ok   0.67s  not_request  My mother sends her regards
+
+               accuracy  recall  missed  false   time/msg   $/1000
+small model         94%    100%       0      6     3.40ms     0.00
+qwen3.5-4b-ctx      99%    100%       0      1      648ms     0.00
+Claude Haiku 5.5, estimated: $0.0165 per 1,000 messages (qwen token counts x1.3 at $0.1/$0.5 per million in/out tokens; not run (no API key))
+wrote C:\Users\ASUS\Downloads\CODES\INDULGE\classifier\llm_comparison.json

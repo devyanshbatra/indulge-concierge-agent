@@ -54,6 +54,9 @@ class Concierge:
                 return
             intake = Intake(group_id=group_id, member_id=member_id, sender=sender, text=text,
                             message_id=message_id, at=self.clock.now)
+            if self._clearly_chatter(intake):
+                self.meter.skipped += 1
+                return
             alerts_before = len(self.store.alerts)
             s = self.settings
             try:
@@ -75,6 +78,21 @@ class Concierge:
             except Exception as exc:  # a bug in a safety net must not lose the member's message
                 self.alert(intake.ticket_id, f"Checking message {message_id} in {group_id} failed ({exc!r}). "
                                              f"Please read it by hand: {text!r}")
+
+    def _clearly_chatter(self, intake: Intake) -> bool:
+        """Let the small classifier answer an obvious "thanks!" without a model call (settings.gate > 0).
+
+        Never when plain code sees a request, a cancellation or a change, and never if the classifier
+        cannot run: a missed request is worse than a wasted call.
+        """
+        if not self.settings.gate or intake.wants_cancel or intake.wants_change \
+                or intake.looks_like_request(self.clock.now, self.house["venues"]):
+            return False
+        try:
+            from classifier.predict import request_scores
+            return request_scores([intake.text])[0] < self.settings.gate
+        except Exception:
+            return False
 
     def on_vendor_reply(self, vendor_id: str, ticket_id: str, text: str, message_id: str) -> None:
         """A vendor answered on the thread of `ticket_id`. Handled by code only: vendor text is untrusted."""

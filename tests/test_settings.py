@@ -69,3 +69,35 @@ def test_profiles(tmp_path, monkeypatch):
 def test_claude_and_the_fake_keep_the_full_flow():
     _, concierge = make()
     assert concierge.settings.prompt == "full" and SYSTEM_PROMPT.startswith("You are the intake assistant")
+
+
+def _gated(client):
+    world, concierge = make(client=client)
+    concierge.settings = ModelSettings(prompt="lean", gate=0.10)
+    return world, concierge
+
+
+def test_gate_skips_the_model_for_obvious_chatter():
+    client = ScriptedClient([])
+    world, concierge = _gated(client)
+    for text in ("Thanks so much!", "Good morning!", "haha ok see you"):
+        world.member_says("G-101", text)
+    assert client.requests == [] and concierge.meter.skipped == 3
+    assert concierge.alerts() == [] and concierge.tickets() == []
+
+
+def test_gate_never_skips_a_request_a_cancellation_or_a_change():
+    texts = [TEXT, "cancel it please", "Can you make it 6 people instead?", "The car hasn't turned up yet"]
+    client = ScriptedClient(["No action"] * len(texts))
+    world, concierge = _gated(client)
+    for text in texts:
+        world.member_says("G-101", text)
+    assert len(client.requests) == len(texts) and concierge.meter.skipped == 0
+
+
+def test_gate_is_off_by_default():
+    client = ScriptedClient(["No action"])
+    world, concierge = make(client=client)
+    concierge.settings = ModelSettings(prompt="lean")
+    world.member_says("G-101", "Thanks so much!")
+    assert len(client.requests) == 1 and concierge.meter.skipped == 0

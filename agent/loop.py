@@ -20,6 +20,7 @@ class Meter:
     output_tokens: int = 0
     cache_read_tokens: int = 0
     seconds: float = 0.0
+    skipped: int = 0              # messages the small classifier answered without a model call
 
     def add(self, usage, seconds: float) -> None:
         self.calls += 1
@@ -33,7 +34,7 @@ class Meter:
         cost = cost_usd(model, self.input_tokens, self.output_tokens, self.cache_read_tokens) if priced else 0.0
         return {"calls": self.calls, "input_tokens": self.input_tokens, "output_tokens": self.output_tokens,
                 "cache_read_tokens": self.cache_read_tokens, "cost_usd": round(cost, 6),
-                "model_seconds": round(self.seconds, 2), "priced": priced}
+                "model_seconds": round(self.seconds, 2), "priced": priced, "skipped_by_classifier": self.skipped}
 
 
 @dataclass(frozen=True)
@@ -49,6 +50,7 @@ class ModelSettings:
     top_p: float | None = None
     prompt: str = "full"          # "full": the model proposes; "lean"/"lean_compact": it only reads, code does the rest
     tool_text: str = "full"       # "full" or "short" tool descriptions
+    gate: float = 0.0             # skip the model when the classifier's p(request) is below this (0 = off)
 
     @property
     def lean(self) -> bool:

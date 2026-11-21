@@ -60,27 +60,33 @@
       "max_tokens": 512,
       "max_steps": 8,
       "thinking": false,
-      "temperature": 0.8,
+      "temperature": 0.1,
       "top_p": 0.5,
       "prompt": "lean",
-      "tool_text": "short"
+      "tool_text": "short",
+      "gate": 0.1
     },
     "tuned_on": "tuning/cases.py English dev half",
-    "test_accuracy": 0.833,
-    "test_mean_seconds": 9.1
+    "test_accuracy": 1.0,
+    "test_mean_seconds": 7.08,
+    "note": "Optuna trial #6 with temperature lowered to 0.1 (trials #2/#5 at 0.1-0.2 were as fast and as accurate on dev) and the classifier gate on; numbers measured after the calendar fix",
+    "fresh_accuracy": 0.9
   },
   "qwen3.5-4b-ctx2048": {
     "settings": {
       "max_tokens": 512,
       "max_steps": 8,
       "thinking": false,
-      "temperature": 0.8,
+      "temperature": 0.1,
       "top_p": 0.5,
       "prompt": "lean",
-      "tool_text": "short"
+      "tool_text": "short",
+      "gate": 0.1
     },
     "tuned_on": "tuning/cases.py English dev half",
-    "test_accuracy": 0.833,
-    "test_mean_seconds": 9.1
+    "test_accuracy": 1.0,
+    "test_mean_seconds": 7.08,
+    "note": "Optuna trial #6 with temperature lowered to 0.1 (trials #2/#5 at 0.1-0.2 were as fast and as accurate on dev) and the classifier gate on; numbers measured after the calendar fix",
+    "fresh_accuracy": 0.9
   }
 }

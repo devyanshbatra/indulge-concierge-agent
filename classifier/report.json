@@ -1,0 +1,187 @@
+{
+  "rows": 2000,
+  "unique_rows_used": 998,
+  "relabelled_by_majority": 27,
+  "left_out_as_likely_mislabelled": 27,
+  "chosen": "word+char tf-idf + logistic regression",
+  "threshold": 0.48,
+  "miss_cost": 5,
+  "comparison": {
+    "word tf-idf + logistic regression": {
+      "threshold": 0.51,
+      "auc_given_labels": 0.9518,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen_phrasings": {
+        "accuracy": 0.9565,
+        "request_recall": 0.9912,
+        "request_precision": 0.9417,
+        "f1": 0.9658,
+        "missed_requests": 1,
+        "false_alarms": 7,
+        "n": 184
+      }
+    },
+    "char tf-idf + logistic regression": {
+      "threshold": 0.55,
+      "auc_given_labels": 0.9598,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen_phrasings": {
+        "accuracy": 0.9402,
+        "request_recall": 0.9825,
+        "request_precision": 0.9256,
+        "f1": 0.9532,
+        "missed_requests": 2,
+        "false_alarms": 9,
+        "n": 184
+      }
+    },
+    "word+char tf-idf + logistic regression": {
+      "threshold": 0.48,
+      "auc_given_labels": 0.9557,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen_phrasings": {
+        "accuracy": 0.9457,
+        "request_recall": 0.9912,
+        "request_precision": 0.9262,
+        "f1": 0.9576,
+        "missed_requests": 1,
+        "false_alarms": 9,
+        "n": 184
+      }
+    },
+    "word tf-idf + complement naive Bayes": {
+      "threshold": 0.51,
+      "auc_given_labels": 0.9522,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen_phrasings": {
+        "accuracy": 0.9511,
+        "request_recall": 0.9825,
+        "request_precision": 0.9412,
+        "f1": 0.9614,
+        "missed_requests": 2,
+        "false_alarms": 7,
+        "n": 184
+      }
+    }
+  },
+  "unseen_wrong": [
+    [
+      "My email has changed to arjun.m@example.com",
+      "not_request",
+      0.691
+    ],
+    [
+      "No need, we found a place already",
+      "not_request",
+      0.499
+    ],
+    [
+      "I'll get back to you about Sunday",
+      "not_request",
+      0.736
+    ],
+    [
+      "Let me check with Divya and revert",
+      "not_request",
+      0.617
+    ],
+    [
+      "Not sure yet about the weekend plans",
+      "not_request",
+      0.525
+    ],
+    [
+      "The hotel is stunning",
+      "not_request",
+      0.737
+    ],
+    [
+      "Appreciate the quick help yesterday",
+      "not_request",
+      0.878
+    ],
+    [
+      "Alright",
+      "not_request",
+      0.508
+    ],
+    [
+      "Ok cool see you tomorrow",
+      "not_request",
+      0.554
+    ],
+    [
+      "Actually cancel that, plans changed. Sorry!",
+      "request",
+      0.214
+    ]
+  ]
+}

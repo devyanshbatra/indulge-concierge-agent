@@ -1,0 +1,39 @@
+{
+  "messages": 100,
+  "small_model": {
+    "accuracy": 0.94,
+    "request_recall": 1.0,
+    "missed_requests": 0,
+    "false_alarms": 6,
+    "ms_per_message_one_by_one": 3.405,
+    "ms_per_message_batch_of_100": 0.195,
+    "cost_per_1000_usd": 0.0
+  },
+  "llm": {
+    "accuracy": 0.99,
+    "request_recall": 1.0,
+    "missed_requests": 0,
+    "false_alarms": 1,
+    "model": "qwen3.5-4b-ctx2048",
+    "mean_seconds": 0.648,
+    "p90_seconds": 0.8,
+    "input_tokens_per_message": 114.18,
+    "output_tokens_per_message": 2.49,
+    "cost_per_1000_usd": 0.0
+  },
+  "claude_haiku_5_5_estimate": {
+    "cost_per_1000_usd": 0.0165,
+    "basis": "qwen token counts x1.3 at $0.1/$0.5 per million in/out tokens; not run (no API key)"
+  },
+  "llm_wrong": [
+    "not_request: <voice note, 1:12>"
+  ],
+  "small_model_wrong": [
+    "not_request: My email has changed to arjun.m@example.com",
+    "not_request: No need, we found a place already",
+    "not_request: I'll get back to you about Sunday",
+    "not_request: Let me check with Divya and revert",
+    "not_request: Not sure yet about the weekend plans",
+    "not_request: The hotel is stunning"
+  ]
+}
