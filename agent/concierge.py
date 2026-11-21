@@ -65,7 +65,11 @@ class Concierge:
             if result.stop != "done":
                 self.alert(intake.ticket_id, f"The model stopped early ({result.stop}) on message {message_id} "
                                              f"in {group_id}. Please check it by hand.")
-            self._after_intake(intake, raised_alert=len(self.store.alerts) > alerts_before)
+            try:
+                self._after_intake(intake, raised_alert=len(self.store.alerts) > alerts_before)
+            except Exception as exc:  # a bug in a safety net must not lose the member's message
+                self.alert(intake.ticket_id, f"Checking message {message_id} in {group_id} failed ({exc!r}). "
+                                             f"Please read it by hand: {text!r}")
 
     def on_vendor_reply(self, vendor_id: str, ticket_id: str, text: str, message_id: str) -> None:
         """A vendor answered on the thread of `ticket_id`. Handled by code only: vendor text is untrusted."""
@@ -78,7 +82,11 @@ class Concierge:
                 return
             now = self.clock.now
             ticket.note(now, f"vendor said: {text}")
-            reading = read_reply(text, ticket, self.house["booking_name"], self.house["venues"], now)
+            try:
+                reading = read_reply(text, ticket, self.house["booking_name"], self.house["venues"], now)
+            except Exception as exc:  # e.g. the shared parser raises on "31 Nov"
+                self.escalate(ticket, f"Could not read the vendor's reply ({exc!r}): {text!r}")
+                return
 
             if ticket.status == "cancelled":
                 if reading.kind != "cancelled":
@@ -288,7 +296,7 @@ class Concierge:
             else:
                 self.escalate(ticket, f"No vendor handles {ticket.category} requests; please arrange it by hand.")
         if intake.wants_cancel:
-            if not intake.cancelled and not raised_alert:
+            if not intake.cancelled and not intake.cancel_flagged:
                 self.alert(intake.ticket_id, f"The message in {intake.group_id} looks like a cancellation, but nothing "
                                              f"was cancelled: {intake.text!r}. Please check.")
             return

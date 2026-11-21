@@ -21,7 +21,8 @@ The text after "---" gives today's date and the member's open tickets."""
 
 CANCEL_INTENT = re.compile(r"\bcancel|call (?:it )?off|don'?t need|do not need|no longer|not needed"
                            r"|plans? (?:have )?changed|scratch that|forget it|nahi chahiye|mat karo|rehne do", re.I)
-CHANGE_INTENT = re.compile(r"\bmake it\b|\binstead\b|\bchange\b|\bmove (?:it|the|our)\b|\bshift\b|\bresched"
+CHANGE_INTENT = re.compile(r"\bmake it\b|\binstead\b|\bchange\b|\b(?:move|push) (?:it|the|our)\b|\bshift\b|\bresched"
+                           r"|\bbring (?:it )?forward\b"
                            r"|\bpostpone|\bprepone|\b(?:one|two|three|\d) more\b|\bearlier\b|\blater\b", re.I)
 REQUEST_WORDS = re.compile(r"\breserve|\bbook|\barrange|\borgani[sz]e|\bget (?:us|me)\b|can you (?:get|find|send|do)"
                            r"|\bplease (?:get|find|send|sort)|\bneed (?:a|an|to)\b|kar do|karwa do|bhej do", re.I)
@@ -45,6 +46,7 @@ class Intake:
     at: datetime
     ticket_id: str | None = None   # a message opens at most one ticket
     cancelled: list[str] = field(default_factory=list)
+    cancel_flagged: bool = False   # a person was already told about this cancellation
 
     @property
     def wants_cancel(self) -> bool:

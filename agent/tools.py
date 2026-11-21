@@ -201,6 +201,7 @@ class Tools:
             return {"error": "the member did not ask to cancel; a human has been told"}
         live = self.desk.store.live_tickets(self.intake.member_id)
         if len(live) > 1 and (not ticket.venue or ticket.venue.lower() not in self.intake.text.lower()):
+            self.intake.cancel_flagged = True
             self.desk.alert(ticket.ticket_id, f"The member asked to cancel, but has {len(live)} open bookings and "
                                               f"the message does not say which one. Please ask.")
             return {"error": "more than one open booking; a human will ask the member which one"}
