@@ -284,8 +284,11 @@ class Concierge:
         now = self.clock.now
         open_tickets = [f"{t.ticket_id} {t.status} {t.venue} {t.date} {t.time} x{t.party_size}"
                         for t in self.store.live_tickets(intake.member_id)]
-        week = ", ".join(f"{day:%a} {day:%Y-%m-%d}" for day in (now.date() + timedelta(days=n) for n in range(8)))
+        day = [now.date() + timedelta(days=n) for n in range(8)]
+        week = ", ".join(f"{d:%a} {d:%Y-%m-%d}" for d in day)
         context = (f"Today is {now:%A %d %B %Y}, {now:%H:%M}.\n"
+                   f"today/tonight = {day[0]:%Y-%m-%d}; tomorrow = {day[1]:%Y-%m-%d}; "
+                   f"day after tomorrow = {day[2]:%Y-%m-%d}.\n"
                    f"Next days: {week}.\n"
                    f"Venues we book: {', '.join(self.house['venues'])}.\n"
                    f"Member's open tickets: {'; '.join(open_tickets) or 'none'}.")

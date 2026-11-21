@@ -1,12 +1,14 @@
 """Run the Concierge over the labelled cases with a real model and score it.
 
     python -X utf8 -m tuning.evaluate --model qwen3.5:4b --prompt lean --thinking off --split test
+    python -X utf8 -m tuning.evaluate --model qwen3.5:4b --num-ctx 2048 --profile --split test fresh
 
 Needs a running Ollama (ANTHROPIC_BASE_URL, default http://localhost:11434).
 """
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import statistics
 import subprocess
@@ -16,9 +18,10 @@ from pathlib import Path
 
 from agent import Concierge
 from agent.loop import ModelSettings
+from agent.profiles import settings_for
 from world import FakeAnthropic, World
 
-from .cases import CASES, HINGLISH, Ask, Book, Cancelled, Quiet, split
+from .cases import CASES, FRESH, HINGLISH, Ask, Book, Cancelled, Quiet, split
 
 OLLAMA_URL = os.environ.get("ANTHROPIC_BASE_URL", "http://localhost:11434")
 
@@ -141,22 +144,34 @@ def main() -> None:
     p = argparse.ArgumentParser()
     p.add_argument("--model", default="qwen3.5:4b")
     p.add_argument("--num-ctx", type=int)
-    p.add_argument("--split", choices=["dev", "test", "hinglish", "all"], default="test")
+    p.add_argument("--split", choices=["dev", "test", "fresh", "hinglish", "all"], nargs="+", default=["test"])
+    p.add_argument("--profile", action="store_true", help="use the settings in agent/model_profiles.json")
     p.add_argument("--prompt", default="full")
     p.add_argument("--tool-text", default="full")
     p.add_argument("--thinking", choices=["on", "off"], default="on")
     p.add_argument("--temperature", type=float)
     p.add_argument("--top-p", type=float)
     p.add_argument("--max-tokens", type=int, default=4096)
+    p.add_argument("--save", type=Path, help="write the results to this JSON file")
     a = p.parse_args()
     dev, test = split()
-    cases = {"dev": dev, "test": test, "hinglish": HINGLISH, "all": CASES}[a.split]
-    settings = ModelSettings(max_tokens=a.max_tokens, thinking=a.thinking == "on", temperature=a.temperature,
-                             top_p=a.top_p, prompt=a.prompt, tool_text=a.tool_text)
-    r = evaluate(cases, with_context(a.model, a.num_ctx), settings)
-    print(f"accuracy {r['accuracy']:.0%}  mean {r['mean_seconds']:.1f}s  p90 {r['p90_seconds']:.1f}s  "
-          f"calls/msg {r['calls_per_message']:.1f}  in/out tokens {r['input_tokens_per_message']:.0f}/"
-          f"{r['output_tokens_per_message']:.0f}  wrong bookings {r['wrong_bookings']}")
+    sets = {"dev": dev, "test": test, "fresh": FRESH, "hinglish": HINGLISH, "all": CASES}
+    model = with_context(a.model, a.num_ctx)
+    settings = settings_for(model) if a.profile else ModelSettings(
+        max_tokens=a.max_tokens, thinking=a.thinking == "on", temperature=a.temperature, top_p=a.top_p,
+        prompt=a.prompt, tool_text=a.tool_text)
+    print(f"{model} {settings}")
+    saved = {"model": model, "settings": settings.__dict__}
+    for name in a.split:
+        print(f"\n{name}:")
+        r = evaluate(sets[name], model, settings)
+        print(f"{name}: accuracy {r['accuracy']:.0%}  mean {r['mean_seconds']:.1f}s  p90 {r['p90_seconds']:.1f}s  "
+              f"calls/msg {r['calls_per_message']:.1f}  in/out tokens {r['input_tokens_per_message']:.0f}/"
+              f"{r['output_tokens_per_message']:.0f}  wrong bookings {r['wrong_bookings']}")
+        saved[name] = {k: v for k, v in r.items() if k != "rows"} | {
+            "misses": [f"{x['id']}: {x['got']}" for x in r["rows"] if not x["correct"]]}
+    if a.save:
+        a.save.write_text(json.dumps(saved, indent=2, default=str), encoding="utf-8")
 
 
 if __name__ == "__main__":

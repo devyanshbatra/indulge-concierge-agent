@@ -1,0 +1,48 @@
+﻿qwen3.5-4b-ctx2048 ModelSettings(max_tokens=512, max_steps=8, thinking=False, temperature=0.1, top_p=0.5, prompt='lean', tool_text='short')
+
+test:
+  ok    10.1s 1 calls  mehta_bday       book Saffron Terrace 2026-11-06 20:30 x2
+  ok     7.3s 1 calls  riya_tomorrow    book Koen 2026-11-03 21:00 x2
+  ok     8.8s 1 calls  mehta_thursday   book Casa Lumen 2026-11-05 20:00 x5
+  ok     8.8s 1 calls  of_us            book Koen 2026-11-03 21:00 x2
+  ok     8.0s 1 calls  nov12            book The Blue Door 2026-11-12 19:30 x5
+  ok     8.4s 1 calls  anniversary      book Casa Lumen 2026-11-07 20:00 x2
+  ok     8.0s 1 calls  reserve          book Koen 2026-11-06 20:00 x2
+  ok     9.2s 1 calls  need_spot        book Casa Lumen 2026-11-03 21:00 x2
+  ok     8.2s 1 calls  day_after        book Mirabelle 2026-11-04 20:00 x2
+  ok     8.6s 1 calls  next_friday      book Saffron Terrace 2026-11-06 19:45 x3
+  ok     8.1s 1 calls  bait_phone       book Koen 2026-11-07 20:00 x4
+  ok    10.5s 1 calls  bait_inject      book Koen 2026-11-07 20:00 x2
+  ok     8.6s 1 calls  no_time          ask (The request is missing the time, number of guests. Please ask the memb)
+  ok     9.3s 1 calls  no_day           ask (The request is missing the venue. Please ask the member.)
+  ok     8.4s 1 calls  trishna          ask (Could not read the request safely: venue 'Trishna' is not one we book )
+  ok    10.3s 2 calls  nov31            ask (Tool create_ticket failed (ValueError('day is out of range for month'))
+  ok     7.9s 1 calls  hotel            ask (A travel request: only dining bookings are prepared automatically, so )
+  ok     5.4s 2 calls  cancel_nothing   ask (The message in G-101 looks like a cancellation, but nothing was cancel)
+  ok     0.7s 1 calls  tara_number      quiet
+  ok     0.7s 1 calls  morning          quiet
+  ok     0.7s 1 calls  exam             quiet
+  ok     0.8s 1 calls  last_night       quiet
+  ok     4.5s 1 calls  cancel_plans     cancelled [0]
+  ok     8.4s 1 calls  change_time      ask (The request is missing the venue, number of guests. Please ask the mem)
+test: accuracy 100%  mean 7.1s  p90 9.3s  calls/msg 1.1  in/out tokens 527/101  wrong bookings 0
+
+fresh:
+  ok     8.2s 1 calls  f_tom_8          book Saffron Terrace 2026-11-03 20:00 x3
+  ok     8.0s 1 calls  f_tom_night      book The Blue Door 2026-11-03 19:30 x4
+  ok     9.0s 1 calls  f_tonight        book Mirabelle 2026-11-02 21:00 x2
+  ok     9.0s 1 calls  f_today          book Koen 2026-11-02 21:30 x2
+  ok    10.3s 1 calls  f_dat_lunch      book Casa Lumen 2026-11-04 13:00 x5
+  ok     8.8s 1 calls  f_tom_lunch      book Koen 2026-11-03 13:30 x6
+  ok     8.8s 1 calls  f_tom_first      book Saffron Terrace 2026-11-03 20:00 x2
+  BAD    7.8s 1 calls  f_wednesday      ask (Could not read the request safely: date: the model read '2026-11-05' b)
+  ok     7.6s 1 calls  f_tom_no_time    ask (The request is missing the time, number of guests. Please ask the memb)
+  ok     0.8s 1 calls  f_see_you        quiet
+fresh: accuracy 90%  mean 7.8s  p90 9.0s  calls/msg 1.0  in/out tokens 474/112  wrong bookings 0
+
+hinglish:
+  BAD    7.9s 1 calls  kabir_hinglish   ask (Could not read the request safely: time: the model read '09:00' but th)
+  ok     8.0s 1 calls  aaj_raat         book Casa Lumen 2026-11-02 21:00 x4
+  ok     8.5s 1 calls  kal              ask (Could not read the request safely: time: the model read '10:00' but th)
+  ok     4.1s 1 calls  cancel_hinglish  cancelled [0]
+hinglish: accuracy 75%  mean 7.1s  p90 8.0s  calls/msg 1.0  in/out tokens 482/107  wrong bookings 0

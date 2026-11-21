@@ -92,3 +92,14 @@ def test_leak_oracle_finds_the_fake_models_careless_draft():
     assert "M001 name part 'riya'" in found and "M001 phone" in found and "M001 name part 'arjun'" in found
     assert independent_leaks("Card: Amex ending 8812, expiry 09/29", members) == \
         ["M001 card last4", "M001 card expiry"]
+
+
+@pytest.mark.parametrize("text, expected", [
+    ("Dinner at Mirabelle day after tomorrow at 8 for 2", "2026-11-04"),
+    ("Koen tomorrow 9 pm for 2", "2026-11-03"),
+    ("Koen tonight 9 pm for 2", "2026-11-02"),
+])
+def test_relative_days_agree_with_the_right_model_reading(text, expected):
+    claimed = {"venue": None, "date": expected, "time": None, "party_size": None}
+    fields, problems, _ = resolve_fields(claimed, text, NOW, VENUES)
+    assert fields["date"] == expected and not problems

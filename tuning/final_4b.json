@@ -1,0 +1,91 @@
+{
+  "model": "qwen3.5-4b-ctx2048",
+  "settings": {
+    "max_tokens": 512,
+    "max_steps": 8,
+    "thinking": false,
+    "temperature": 0.1,
+    "top_p": 0.5,
+    "prompt": "lean",
+    "tool_text": "short"
+  },
+  "test": {
+    "model": "qwen3.5-4b-ctx2048",
+    "settings": {
+      "max_tokens": 512,
+      "max_steps": 8,
+      "thinking": false,
+      "temperature": 0.1,
+      "top_p": 0.5,
+      "prompt": "lean",
+      "tool_text": "short"
+    },
+    "cases": 24,
+    "done": 24,
+    "aborted": false,
+    "accuracy": 1.0,
+    "accuracy_done": 1.0,
+    "mean_seconds": 7.07625,
+    "p90_seconds": 9.35,
+    "calls_per_message": 1.0833333333333333,
+    "input_tokens_per_message": 527.2916666666666,
+    "output_tokens_per_message": 101.125,
+    "wrong_bookings": 0,
+    "model_failures": 0,
+    "misses": []
+  },
+  "fresh": {
+    "model": "qwen3.5-4b-ctx2048",
+    "settings": {
+      "max_tokens": 512,
+      "max_steps": 8,
+      "thinking": false,
+      "temperature": 0.1,
+      "top_p": 0.5,
+      "prompt": "lean",
+      "tool_text": "short"
+    },
+    "cases": 10,
+    "done": 10,
+    "aborted": false,
+    "accuracy": 0.9,
+    "accuracy_done": 0.9,
+    "mean_seconds": 7.83,
+    "p90_seconds": 8.99,
+    "calls_per_message": 1.0,
+    "input_tokens_per_message": 474.2,
+    "output_tokens_per_message": 112.5,
+    "wrong_bookings": 0,
+    "model_failures": 0,
+    "misses": [
+      "f_wednesday: ask (Could not read the request safely: date: the model read '2026-11-05' b)"
+    ]
+  },
+  "hinglish": {
+    "model": "qwen3.5-4b-ctx2048",
+    "settings": {
+      "max_tokens": 512,
+      "max_steps": 8,
+      "thinking": false,
+      "temperature": 0.1,
+      "top_p": 0.5,
+      "prompt": "lean",
+      "tool_text": "short"
+    },
+    "cases": 4,
+    "done": 4,
+    "aborted": false,
+    "accuracy": 0.75,
+    "accuracy_done": 0.75,
+    "mean_seconds": 7.115,
+    "p90_seconds": 7.96,
+    "calls_per_message": 1.0,
+    "input_tokens_per_message": 482.0,
+    "output_tokens_per_message": 106.75,
+    "wrong_bookings": 0,
+    "model_failures": 0,
+    "misses": [
+      "kabir_hinglish: ask (Could not read the request safely: time: the model read '09:00' but th)"
+    ]
+  }
+}

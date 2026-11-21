@@ -140,6 +140,23 @@ CASES = [
 
 
 ENGLISH = [c for c in CASES if c.lang == "en"]
+
+# Written after the first report showed "tomorrow" misread, so never tuned on or
+# looked at while changing the agent: a clean check that the fix holds up.
+FRESH = [
+    case("f_tom_8", "G-102", "Could we get a table at Saffron Terrace tomorrow at 8 pm for 3?",
+         Book("Saffron Terrace", TOM, "20:00", 3)),
+    case("f_tom_night", "G-105", "Tomorrow night, The Blue Door, 7:30 pm, four people", Book("The Blue Door", TOM, "19:30", 4)),
+    case("f_tonight", "G-104", "Book Mirabelle for tonight 9 pm, 2 people", Book("Mirabelle", TODAY, "21:00", 2)),
+    case("f_today", "G-101", "Table for 2 at Koen today at 9:30 pm", Book("Koen", TODAY, "21:30", 2)),
+    case("f_dat_lunch", "G-102", "Casa Lumen the day after tomorrow, lunch at 1 pm, 5 of us",
+         Book("Casa Lumen", WED, "13:00", 5)),
+    case("f_tom_lunch", "G-101", "Need Koen tomorrow for lunch at 1:30 pm, 6 of us", Book("Koen", TOM, "13:30", 6)),
+    case("f_tom_first", "G-103", "tomorrow at 8pm, Saffron Terrace, party of 2", Book("Saffron Terrace", TOM, "20:00", 2)),
+    case("f_wednesday", "G-104", "This Wednesday, dinner at Casa Lumen, 8 pm, 4 guests", Book("Casa Lumen", WED, "20:00", 4)),
+    case("f_tom_no_time", "G-101", "Can you book Koen for tomorrow?", Ask()),
+    case("f_see_you", "G-106", "Thank you, see you tomorrow!", Quiet()),
+]
 HINGLISH = [c for c in CASES if c.lang == "hinglish"]  # a side check only; English is the main language
 
 

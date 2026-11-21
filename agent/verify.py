@@ -9,8 +9,9 @@ import re
 from dataclasses import dataclass, field
 from datetime import date, datetime
 
-from world.parse import fmt_date, fmt_time, parse_date, parse_party_size, parse_time, parse_venue
+from world.parse import fmt_date, fmt_time, parse_party_size, parse_time, parse_venue
 
+from .intake import read_date
 from .state import FIELD_WORDS, FIELDS
 
 ASKS_PRIVATE = re.compile(
@@ -56,7 +57,7 @@ def read_reply(text: str, ticket, house_name: str, venues: list[str], now: datet
 
 def compare(text: str, ticket, house_name: str, venues: list[str], now: datetime) -> list[str]:
     """Differences between a vendor's confirmation and what the member asked for."""
-    said_date = parse_date(text, now)
+    said_date = read_date(text, now)
     said = {"venue": parse_venue(text, venues), "date": said_date.isoformat() if said_date else None,
             "time": parse_time(text), "party_size": parse_party_size(text)}
     wanted = ticket.fields()

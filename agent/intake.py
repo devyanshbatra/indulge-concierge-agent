@@ -4,9 +4,18 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 from world.parse import parse_date, parse_party_size, parse_time, parse_venue
+
+DAY_AFTER_TOMORROW = re.compile(r"\bday after tomorrow\b", re.I)
+
+
+def read_date(text: str, now: datetime) -> date | None:
+    """world.parse.parse_date, plus "day after tomorrow" (which it reads as tomorrow)."""
+    if DAY_AFTER_TOMORROW.search(text):
+        return now.date() + timedelta(days=2)
+    return parse_date(text, now)
 
 SYSTEM_PROMPT = """\
 You are the intake assistant of a luxury concierge desk. Each user turn is one event: a WhatsApp message from a member.
@@ -80,7 +89,7 @@ class Intake:
 
     def looks_like_request(self, now: datetime, venues: list[str]) -> bool:
         """A plain-code second opinion, used only to catch requests the model ignored."""
-        when = parse_date(self.text, now) and parse_time(self.text)
+        when = read_date(self.text, now) and parse_time(self.text)
         return bool(REQUEST_WORDS.search(self.text) or parse_venue(self.text, venues) or when)
 
 
@@ -102,7 +111,7 @@ def resolve_fields(claimed: dict, text: str, now: datetime, venues: list[str]) -
     Returns (fields, problems, unverified). When both read a value and disagree,
     the field is left empty and the problem is reported: a person decides.
     """
-    parsed_date = parse_date(text, now)
+    parsed_date = read_date(text, now)
     parsed = {"venue": parse_venue(text, venues), "date": parsed_date.isoformat() if parsed_date else None,
               "time": parse_time(text), "party_size": parse_party_size(text)}
     model = {"venue": _venue(claimed.get("venue"), venues), "date": _date(claimed.get("date"), now),
@@ -138,7 +147,7 @@ def _date(value, now: datetime) -> str | None:
     try:
         return date.fromisoformat(str(value).strip()[:10]).isoformat()
     except ValueError:
-        parsed = parse_date(str(value), now)
+        parsed = read_date(str(value), now)
         return parsed.isoformat() if parsed else None
 
 
