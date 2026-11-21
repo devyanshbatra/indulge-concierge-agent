@@ -34,7 +34,8 @@ TOOLS = [
          "request_summary": _text("One line describing the request, for our team only."),
          "venue": _maybe("string", "Restaurant name, or null."),
          "date": _maybe("string", "YYYY-MM-DD, or null."),
-         "time": _maybe("string", "24-hour HH:MM, or null."),
+         "time": _maybe("string", "24-hour HH:MM, or null. 8:30 pm is 20:30; 1 pm is 13:00; "
+                                  "'9 baje' for dinner is 21:00."),
          "party_size": _maybe("integer", "Number of guests, or null."),
      })},
     {"name": "list_open_tickets",
@@ -152,9 +153,10 @@ class Tools:
 
     def _find_vendors(self, args: dict) -> dict:
         category = normalise_category(args.get("category"))
-        vendors = [{"vendor_id": v["vendor_id"], "name": v["name"], "kind": v["kind"]}
-                   for v in self.desk.data.vendors.values() if category in v["categories"]]
-        return {"vendors": vendors}
+        matching = [v for v in self.desk.data.vendors.values() if category in v["categories"]]
+        matching.sort(key=lambda v: v["kind"] != "ai_agent")  # the fast booking agent first
+        return {"vendors": [{"vendor_id": v["vendor_id"], "name": v["name"], "kind": v["kind"],
+                             "notes": v.get("notes", "")} for v in matching]}
 
     def _propose_job(self, args: dict) -> dict:
         ticket = self._ticket(args.get("ticket_id"))

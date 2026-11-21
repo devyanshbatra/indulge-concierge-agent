@@ -9,6 +9,8 @@ decided by code in this package, not by the model.
 """
 from __future__ import annotations
 
+from datetime import timedelta
+
 from world.events import render_group_message
 from world.transport import TransportTimeout
 
@@ -24,6 +26,7 @@ CHASE_AFTER_MINUTES = 20      # silence before the one reminder
 HANDOVER_AFTER_MINUTES = 45   # silence (since the job was sent) before a human takes over
 APPROVAL_NUDGE_MINUTES = 30   # a proposal nobody approved gets one reminder alert
 MAX_MODEL_STEPS = 8
+MAX_TOKENS = 4096             # room for a thinking model to reason before its tool call
 SEND_ATTEMPTS = 3             # retries reuse the same idempotency key, so they cannot double-send
 
 
@@ -54,7 +57,7 @@ class Concierge:
             try:
                 result = run_tool_loop(self.client, model=self.model, system=SYSTEM_PROMPT, tools=TOOLS,
                                        prompt=self._render(intake), run_tool=Tools(self, intake).run,
-                                       meter=self.meter, max_steps=MAX_MODEL_STEPS)
+                                       meter=self.meter, max_steps=MAX_MODEL_STEPS, max_tokens=MAX_TOKENS)
             except Exception as exc:  # model down, rate limited, bad response...
                 self.alert(intake.ticket_id, f"The model failed on message {message_id} in {group_id} ({exc!r}). "
                                              f"Please read it by hand: {text!r}")
@@ -268,7 +271,9 @@ class Concierge:
         now = self.clock.now
         open_tickets = [f"{t.ticket_id} {t.status} {t.venue} {t.date} {t.time} x{t.party_size}"
                         for t in self.store.live_tickets(intake.member_id)]
+        week = ", ".join(f"{day:%a} {day:%Y-%m-%d}" for day in (now.date() + timedelta(days=n) for n in range(8)))
         context = (f"Today is {now:%A %d %B %Y}, {now:%H:%M}.\n"
+                   f"Next days: {week}.\n"
                    f"Venues we book: {', '.join(self.house['venues'])}.\n"
                    f"Member's open tickets: {'; '.join(open_tickets) or 'none'}.")
         return render_group_message(intake.group_id, intake.member_id, intake.sender, intake.text) + "\n---\n" + context
