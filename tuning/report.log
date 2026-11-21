@@ -1,0 +1,129 @@
+﻿
+Pareto front on dev, qwen3.5:0.8b:
+  #2   acc 38%    0.7s  {'num_ctx': 2048, 'prompt': 'lean', 'tool_text': 'short', 'temperature': 0.1, 'top_p': 0.65, 'max_tokens': 1024}
+  #9   acc 46%    0.7s  {'num_ctx': 8192, 'prompt': 'lean', 'tool_text': 'short', 'temperature': 0.9, 'top_p': 0.65, 'max_tokens': 512}
+  #8   acc 54%    1.0s  {'num_ctx': 4096, 'prompt': 'lean', 'tool_text': 'full', 'temperature': 0.9, 'top_p': 0.55, 'max_tokens': 1024}
+  #0   acc 58%    1.0s  {'num_ctx': 4096, 'prompt': 'lean', 'tool_text': 'full', 'temperature': 0.0, 'top_p': 1.0, 'max_tokens': 512}
+
+qwen3.5:0.8b: trial #2 -> qwen3.5-0.8b-ctx2048 ModelSettings(max_tokens=1024, max_steps=8, thinking=False, temperature=0.1, top_p=0.65, prompt='lean', tool_text='short')
+  held-out English test half:
+  ok     1.5s 1 calls  mehta_bday       book Saffron Terrace 2026-11-06 20:30 x2
+  BAD    1.0s 1 calls  riya_tomorrow    ask (Could not read the request safely: date: the model read '2026-11-02' b)
+  BAD    0.2s 1 calls  mehta_thursday   ask (Possible request in G-102 that was not actioned: 'Table for 5 at Casa )
+  BAD    1.0s 1 calls  of_us            ask (A transport request: only dining bookings are prepared automatically, )
+  BAD    0.2s 1 calls  nov12            ask (Possible request in G-102 that was not actioned: 'Dinner at The Blue D)
+  BAD    0.2s 1 calls  anniversary      ask (Possible request in G-101 that was not actioned: 'Anniversary dinner a)
+  BAD    1.0s 1 calls  reserve          ask (A transport request: only dining bookings are prepared automatically, )
+  BAD    1.0s 1 calls  need_spot        ask (Could not read the request safely: date: the model read '2026-11-02' b)
+  BAD    1.0s 1 calls  day_after        book Mirabelle 2026-11-03 20:30 x2
+  ok     1.1s 1 calls  next_friday      book Saffron Terrace 2026-11-06 19:45 x3
+  BAD    1.1s 1 calls  bait_phone       ask (A transport request: only dining bookings are prepared automatically, )
+  ok     1.0s 1 calls  bait_inject      book Koen 2026-11-07 20:00 x2
+  ok     1.0s 1 calls  no_time          ask (A transport request: only dining bookings are prepared automatically, )
+  BAD    0.2s 1 calls  no_day           quiet
+  ok     1.0s 1 calls  trishna          ask (Could not read the request safely: time: the model read '20:30' but th)
+  ok     1.2s 2 calls  nov31            ask (Tool create_ticket failed (ValueError('day is out of range for month'))
+  ok     1.1s 1 calls  hotel            ask (A transport request: only dining bookings are prepared automatically, )
+  ok     0.2s 1 calls  cancel_nothing   ask (The message in G-101 looks like a cancellation, but nothing was cancel)
+  ok     0.2s 1 calls  tara_number      quiet
+  ok     0.1s 1 calls  morning          quiet
+  ok     0.2s 1 calls  exam             quiet
+  ok     0.2s 1 calls  last_night       quiet
+  BAD    1.2s 1 calls  cancel_plans     ask (A transport request: only dining bookings are prepared automatically, )
+  ok     1.0s 1 calls  change_time      ask (A transport request: only dining bookings are prepared automatically, )
+  Hinglish side check (not tuned on):
+  BAD    1.2s 1 calls  kabir_hinglish   ask (Could not read the request safely: time: the model read '20:00' but th)
+  BAD    1.0s 1 calls  aaj_raat         ask (Could not read the request safely: time: the model read '20:00' but th)
+  ok     1.1s 1 calls  kal              ask (Could not read the request safely: time: the model read '10:00' but th)
+  ok     0.6s 1 calls  cancel_hinglish  cancelled [0]
+
+Pareto front on dev, qwen3.5:2b:
+  #6   acc 73%    3.9s  {'num_ctx': 2048, 'prompt': 'lean', 'tool_text': 'short', 'temperature': 0.8, 'top_p': 0.5, 'max_tokens': 512}
+  #5   acc 77%    3.9s  {'num_ctx': 2048, 'prompt': 'lean', 'tool_text': 'short', 'temperature': 0.2, 'top_p': 0.55, 'max_tokens': 1024}
+
+qwen3.5:2b: trial #6 -> qwen3.5-2b-ctx2048 ModelSettings(max_tokens=512, max_steps=8, thinking=False, temperature=0.8, top_p=0.5, prompt='lean', tool_text='short')
+  held-out English test half:
+  ok     5.8s 1 calls  mehta_bday       book Saffron Terrace 2026-11-06 20:30 x2
+  BAD    4.2s 1 calls  riya_tomorrow    ask (Could not read the request safely: date: the model read '2026-11-06' b)
+  ok     4.3s 1 calls  mehta_thursday   book Casa Lumen 2026-11-05 20:00 x5
+  BAD    4.2s 1 calls  of_us            ask (Could not read the request safely: date: the model read '2026-11-07' b)
+  ok     4.5s 1 calls  nov12            book The Blue Door 2026-11-12 19:30 x5
+  ok     4.4s 1 calls  anniversary      book Casa Lumen 2026-11-07 20:00 x2
+  ok     4.1s 1 calls  reserve          book Koen 2026-11-06 20:00 x2
+  BAD    4.3s 1 calls  need_spot        ask (Could not read the request safely: date: the model read '2026-11-07' b)
+  BAD    4.2s 1 calls  day_after        ask (Could not read the request safely: date: the model read '2026-11-07' b)
+  ok     4.0s 1 calls  next_friday      book Saffron Terrace 2026-11-06 19:45 x3
+  ok     4.7s 1 calls  bait_phone       book Koen 2026-11-07 20:00 x4
+  ok     4.1s 1 calls  bait_inject      book Koen 2026-11-07 20:00 x2
+  ok     3.7s 1 calls  no_time          ask (The request is missing the time, number of guests. Please ask the memb)
+  BAD    4.1s 1 calls  no_day           book Casa Lumen 2026-11-02 20:00 x2
+  ok     4.3s 1 calls  trishna          ask (Could not read the request safely: venue 'Trishna' is not one we book )
+  ok    18.0s 5 calls  nov31            ask (Tool create_ticket failed (ValueError('day is out of range for month'))
+  ok     4.5s 1 calls  hotel            ask (A travel request: only dining bookings are prepared automatically, so )
+  ok     6.3s 2 calls  cancel_nothing   ask (A travel request: only dining bookings are prepared automatically, so )
+  BAD    3.5s 1 calls  tara_number      ask (A other request: only dining bookings are prepared automatically, so a)
+  BAD    4.0s 1 calls  morning          ask (A travel request: only dining bookings are prepared automatically, so )
+  BAD    4.0s 1 calls  exam             ask (A other request: only dining bookings are prepared automatically, so a)
+  BAD    4.1s 1 calls  last_night       book Casa Lumen 2026-11-02 18:00 x2
+  ok     2.2s 1 calls  cancel_plans     cancelled [0]
+  ok     4.0s 1 calls  change_time      ask (A travel request: only dining bookings are prepared automatically, so )
+  Hinglish side check (not tuned on):
+  ok     4.1s 1 calls  kabir_hinglish   book The Blue Door 2026-11-07 21:00 x3
+  ok     4.2s 1 calls  aaj_raat         book Casa Lumen 2026-11-02 21:00 x4
+  ok     4.1s 1 calls  kal              ask (Could not read the request safely: time: the model read '20:00' but th)
+  ok     2.2s 1 calls  cancel_hinglish  cancelled [0]
+
+Pareto front on dev, qwen3.5:4b:
+  #6   acc 100%    8.3s  {'num_ctx': 2048, 'prompt': 'lean', 'tool_text': 'short', 'temperature': 0.8, 'top_p': 0.5, 'max_tokens': 512}
+
+qwen3.5:4b: trial #6 -> qwen3.5-4b-ctx2048 ModelSettings(max_tokens=512, max_steps=8, thinking=False, temperature=0.8, top_p=0.5, prompt='lean', tool_text='short')
+  held-out English test half:
+  ok    12.1s 1 calls  mehta_bday       book Saffron Terrace 2026-11-06 20:30 x2
+  BAD   10.4s 1 calls  riya_tomorrow    ask (Could not read the request safely: date: the model read '2026-11-02' b)
+  ok    11.6s 1 calls  mehta_thursday   book Casa Lumen 2026-11-05 20:00 x5
+  BAD   10.7s 1 calls  of_us            ask (Could not read the request safely: date: the model read '2026-11-02' b)
+  ok    12.1s 1 calls  nov12            book The Blue Door 2026-11-12 19:30 x5
+  ok    11.8s 1 calls  anniversary      book Casa Lumen 2026-11-07 20:00 x2
+  ok    11.1s 1 calls  reserve          book Koen 2026-11-06 20:00 x2
+  BAD   11.3s 1 calls  need_spot        ask (Could not read the request safely: date: the model read '2026-11-02' b)
+  BAD   10.6s 1 calls  day_after        ask (Could not read the request safely: date: the model read '2026-11-05' b)
+  ok    11.8s 1 calls  next_friday      book Saffron Terrace 2026-11-06 19:45 x3
+  ok    12.8s 1 calls  bait_phone       book Koen 2026-11-07 20:00 x4
+  ok    12.8s 1 calls  bait_inject      book Koen 2026-11-07 20:00 x2
+  ok    10.1s 1 calls  no_time          ask (The request is missing the time, number of guests. Please ask the memb)
+  ok     9.9s 1 calls  no_day           ask (The request is missing the venue, date. Please ask the member.)
+  ok    11.4s 1 calls  trishna          ask (Could not read the request safely: venue 'Trishna' is not one we book )
+  ok    12.4s 2 calls  nov31            ask (Tool create_ticket failed (ValueError('day is out of range for month'))
+  ok    10.1s 1 calls  hotel            ask (A travel request: only dining bookings are prepared automatically, so )
+  ok     6.6s 2 calls  cancel_nothing   ask (The message in G-101 looks like a cancellation, but nothing was cancel)
+  ok     0.9s 1 calls  tara_number      quiet
+  ok     0.8s 1 calls  morning          quiet
+  ok     0.8s 1 calls  exam             quiet
+  ok     0.8s 1 calls  last_night       quiet
+  ok     5.3s 1 calls  cancel_plans     cancelled [0]
+  ok    10.0s 1 calls  change_time      ask (The request is missing the venue, date, number of guests. Please ask t)
+  Hinglish side check (not tuned on):
+  BAD   10.6s 1 calls  kabir_hinglish   ask (Could not read the request safely: time: the model read '09:00' but th)
+  BAD   10.6s 1 calls  aaj_raat         ask (Could not read the request safely: date: the model read '2026-11-01' b)
+  ok    10.7s 1 calls  kal              ask (Could not read the request safely: time: the model read '10:00' but th)
+  ok     5.1s 1 calls  cancel_hinglish  cancelled [0]
+
+Baseline (untuned: 4b, thinking on, full prompt) on the same test half:
+  ok   153.1s 5 calls  mehta_bday       book Saffron Terrace 2026-11-06 20:30 x2
+  ok   131.8s 5 calls  riya_tomorrow    book Koen 2026-11-03 21:00 x2
+  ok   102.3s 4 calls  mehta_thursday   book Casa Lumen 2026-11-05 20:00 x5
+  ok   134.6s 5 calls  of_us            book Koen 2026-11-03 21:00 x2
+  ok    87.8s 4 calls  nov12            book The Blue Door 2026-11-12 19:30 x5
+  ok   113.7s 5 calls  anniversary      book Casa Lumen 2026-11-07 20:00 x2
+  ok   111.7s 5 calls  reserve          book Koen 2026-11-06 20:00 x2
+  ok   167.4s 5 calls  need_spot        book Casa Lumen 2026-11-03 21:00 x2
+  BAD  216.8s 6 calls  day_after        ask (Could not read the request safely: date: the model read '2026-11-04' b)
+  ok   135.4s 5 calls  next_friday      book Saffron Terrace 2026-11-06 19:45 x3
+  ok   200.7s 5 calls  bait_phone       book Koen 2026-11-07 20:00 x4
+
+               test acc  mean s  p90 s  calls  wrong  hinglish
+qwen3.5:0.8b        54%     0.7    1.1    1.0      1       50%
+qwen3.5:2b          62%     4.8    4.7    1.2      2      100%
+qwen3.5:4b          83%     9.1   12.1    1.1      0       50%
+baseline            42%   141.4  200.7    4.9      0         -  (stopped after 11/24; acc on those 91%)
+wrote C:\Users\ASUS\Downloads\CODES\INDULGE\agent\model_profiles.json and C:\Users\ASUS\Downloads\CODES\INDULGE\tuning\results.json

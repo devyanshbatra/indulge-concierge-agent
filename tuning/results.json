@@ -1,0 +1,256 @@
+{
+  "qwen3.5:0.8b": {
+    "ollama_model": "qwen3.5-0.8b-ctx2048",
+    "trial": 2,
+    "params": {
+      "num_ctx": 2048,
+      "prompt": "lean",
+      "tool_text": "short",
+      "temperature": 0.1,
+      "top_p": 0.65,
+      "max_tokens": 1024
+    },
+    "dev_accuracy": 0.38461538461538464,
+    "dev_mean_seconds": 0.681923076923077,
+    "test": {
+      "model": "qwen3.5-0.8b-ctx2048",
+      "settings": {
+        "max_tokens": 1024,
+        "max_steps": 8,
+        "thinking": false,
+        "temperature": 0.1,
+        "top_p": 0.65,
+        "prompt": "lean",
+        "tool_text": "short"
+      },
+      "cases": 24,
+      "done": 24,
+      "aborted": false,
+      "accuracy": 0.5416666666666666,
+      "accuracy_done": 0.5416666666666666,
+      "mean_seconds": 0.7370833333333333,
+      "p90_seconds": 1.14,
+      "calls_per_message": 1.0416666666666667,
+      "input_tokens_per_message": 521.6666666666666,
+      "output_tokens_per_message": 84.16666666666667,
+      "wrong_bookings": 1,
+      "model_failures": 0,
+      "misses": [
+        "riya_tomorrow: ask (Could not read the request safely: date: the model read '2026-11-02' b)",
+        "mehta_thursday: ask (Possible request in G-102 that was not actioned: 'Table for 5 at Casa )",
+        "of_us: ask (A transport request: only dining bookings are prepared automatically, )",
+        "nov12: ask (Possible request in G-102 that was not actioned: 'Dinner at The Blue D)",
+        "anniversary: ask (Possible request in G-101 that was not actioned: 'Anniversary dinner a)",
+        "reserve: ask (A transport request: only dining bookings are prepared automatically, )",
+        "need_spot: ask (Could not read the request safely: date: the model read '2026-11-02' b)",
+        "day_after: book Mirabelle 2026-11-03 20:30 x2",
+        "bait_phone: ask (A transport request: only dining bookings are prepared automatically, )",
+        "no_day: quiet",
+        "cancel_plans: ask (A transport request: only dining bookings are prepared automatically, )"
+      ]
+    },
+    "hinglish": {
+      "model": "qwen3.5-0.8b-ctx2048",
+      "settings": {
+        "max_tokens": 1024,
+        "max_steps": 8,
+        "thinking": false,
+        "temperature": 0.1,
+        "top_p": 0.65,
+        "prompt": "lean",
+        "tool_text": "short"
+      },
+      "cases": 4,
+      "done": 4,
+      "aborted": false,
+      "accuracy": 0.5,
+      "accuracy_done": 0.5,
+      "mean_seconds": 0.9825,
+      "p90_seconds": 1.05,
+      "calls_per_message": 1.0,
+      "input_tokens_per_message": 482.0,
+      "output_tokens_per_message": 114.5,
+      "wrong_bookings": 0,
+      "model_failures": 0,
+      "misses": [
+        "kabir_hinglish: ask (Could not read the request safely: time: the model read '20:00' but th)",
+        "aaj_raat: ask (Could not read the request safely: time: the model read '20:00' but th)"
+      ]
+    }
+  },
+  "qwen3.5:2b": {
+    "ollama_model": "qwen3.5-2b-ctx2048",
+    "trial": 6,
+    "params": {
+      "num_ctx": 2048,
+      "prompt": "lean",
+      "tool_text": "short",
+      "temperature": 0.8,
+      "top_p": 0.5,
+      "max_tokens": 512
+    },
+    "dev_accuracy": 0.7307692307692307,
+    "dev_mean_seconds": 3.9238461538461538,
+    "test": {
+      "model": "qwen3.5-2b-ctx2048",
+      "settings": {
+        "max_tokens": 512,
+        "max_steps": 8,
+        "thinking": false,
+        "temperature": 0.8,
+        "top_p": 0.5,
+        "prompt": "lean",
+        "tool_text": "short"
+      },
+      "cases": 24,
+      "done": 24,
+      "aborted": false,
+      "accuracy": 0.625,
+      "accuracy_done": 0.625,
+      "mean_seconds": 4.818333333333333,
+      "p90_seconds": 4.73,
+      "calls_per_message": 1.2083333333333333,
+      "input_tokens_per_message": 542.4166666666666,
+      "output_tokens_per_message": 145.45833333333334,
+      "wrong_bookings": 2,
+      "model_failures": 1,
+      "misses": [
+        "riya_tomorrow: ask (Could not read the request safely: date: the model read '2026-11-06' b)",
+        "of_us: ask (Could not read the request safely: date: the model read '2026-11-07' b)",
+        "need_spot: ask (Could not read the request safely: date: the model read '2026-11-07' b)",
+        "day_after: ask (Could not read the request safely: date: the model read '2026-11-07' b)",
+        "no_day: book Casa Lumen 2026-11-02 20:00 x2",
+        "tara_number: ask (A other request: only dining bookings are prepared automatically, so a)",
+        "morning: ask (A travel request: only dining bookings are prepared automatically, so )",
+        "exam: ask (A other request: only dining bookings are prepared automatically, so a)",
+        "last_night: book Casa Lumen 2026-11-02 18:00 x2"
+      ]
+    },
+    "hinglish": {
+      "model": "qwen3.5-2b-ctx2048",
+      "settings": {
+        "max_tokens": 512,
+        "max_steps": 8,
+        "thinking": false,
+        "temperature": 0.8,
+        "top_p": 0.5,
+        "prompt": "lean",
+        "tool_text": "short"
+      },
+      "cases": 4,
+      "done": 4,
+      "aborted": false,
+      "accuracy": 1.0,
+      "accuracy_done": 1.0,
+      "mean_seconds": 3.6475,
+      "p90_seconds": 4.12,
+      "calls_per_message": 1.0,
+      "input_tokens_per_message": 482.0,
+      "output_tokens_per_message": 108.75,
+      "wrong_bookings": 0,
+      "model_failures": 0,
+      "misses": []
+    }
+  },
+  "qwen3.5:4b": {
+    "ollama_model": "qwen3.5-4b-ctx2048",
+    "trial": 6,
+    "params": {
+      "num_ctx": 2048,
+      "prompt": "lean",
+      "tool_text": "short",
+      "temperature": 0.8,
+      "top_p": 0.5,
+      "max_tokens": 512
+    },
+    "dev_accuracy": 1.0,
+    "dev_mean_seconds": 8.321538461538461,
+    "test": {
+      "model": "qwen3.5-4b-ctx2048",
+      "settings": {
+        "max_tokens": 512,
+        "max_steps": 8,
+        "thinking": false,
+        "temperature": 0.8,
+        "top_p": 0.5,
+        "prompt": "lean",
+        "tool_text": "short"
+      },
+      "cases": 24,
+      "done": 24,
+      "aborted": false,
+      "accuracy": 0.8333333333333334,
+      "accuracy_done": 0.8333333333333334,
+      "mean_seconds": 9.100416666666666,
+      "p90_seconds": 12.13,
+      "calls_per_message": 1.0833333333333333,
+      "input_tokens_per_message": 525.2916666666666,
+      "output_tokens_per_message": 102.08333333333333,
+      "wrong_bookings": 0,
+      "model_failures": 0,
+      "misses": [
+        "riya_tomorrow: ask (Could not read the request safely: date: the model read '2026-11-02' b)",
+        "of_us: ask (Could not read the request safely: date: the model read '2026-11-02' b)",
+        "need_spot: ask (Could not read the request safely: date: the model read '2026-11-02' b)",
+        "day_after: ask (Could not read the request safely: date: the model read '2026-11-05' b)"
+      ]
+    },
+    "hinglish": {
+      "model": "qwen3.5-4b-ctx2048",
+      "settings": {
+        "max_tokens": 512,
+        "max_steps": 8,
+        "thinking": false,
+        "temperature": 0.8,
+        "top_p": 0.5,
+        "prompt": "lean",
+        "tool_text": "short"
+      },
+      "cases": 4,
+      "done": 4,
+      "aborted": false,
+      "accuracy": 0.5,
+      "accuracy_done": 0.5,
+      "mean_seconds": 9.2525,
+      "p90_seconds": 10.64,
+      "calls_per_message": 1.0,
+      "input_tokens_per_message": 482.0,
+      "output_tokens_per_message": 106.0,
+      "wrong_bookings": 0,
+      "model_failures": 0,
+      "misses": [
+        "kabir_hinglish: ask (Could not read the request safely: time: the model read '09:00' but th)",
+        "aaj_raat: ask (Could not read the request safely: date: the model read '2026-11-01' b)"
+      ]
+    }
+  },
+  "baseline": {
+    "test": {
+      "model": "qwen3.5:4b",
+      "settings": {
+        "max_tokens": 4096,
+        "max_steps": 8,
+        "thinking": true,
+        "temperature": null,
+        "top_p": null,
+        "prompt": "full",
+        "tool_text": "full"
+      },
+      "cases": 24,
+      "done": 11,
+      "aborted": true,
+      "accuracy": 0.4166666666666667,
+      "accuracy_done": 0.9090909090909091,
+      "mean_seconds": 141.39636363636365,
+      "p90_seconds": 200.74,
+      "calls_per_message": 4.909090909090909,
+      "input_tokens_per_message": 1027.1818181818182,
+      "output_tokens_per_message": 1381.8181818181818,
+      "wrong_bookings": 0,
+      "model_failures": 1,
+      "misses": [
+        "day_after: ask (Could not read the request safely: date: the model read '2026-11-04' b)"
+      ]
+    }
+  }
+}
