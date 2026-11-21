@@ -8,11 +8,26 @@ answer, and keeps all sending, approval and verification in code. The same code 
 
 - **Agent:** a 4B model handles booking messages at **100% on held-out English cases** (9/10 on fresh ones written
   later), in **6.8 s per message** (down from ~141 s untuned), with **no wrong bookings and no leaks** in any run.
-- **Tests:** 267 automated tests, covering every house rule.
+- **Tests:** 367 automated tests, covering every house rule.
 - **Small model:** catches **99% of real requests** in phrasings it never saw, in ~3 ms on a CPU, and skips the
   model for obvious chatter.
 
 Everything below is measured, not estimated, unless it says otherwise.
+
+**How to run** (on Windows add `-X utf8`, see the last section):
+
+```bash
+pip install -r requirements.txt
+pytest -q                                   # 367 tests, offline, ~10 s
+python play.py all                          # every scenario on the fake model
+python scenario_numbers.py                  # calls, tokens, cost and time per scenario
+python -m classifier.train                  # retrain the small model (~3 s) and print each step
+python -c "from classifier.predict import predict; print(predict(['Book Koen for Saturday 8pm', 'thanks!']))"
+
+# a local model instead of the fake (Ollama running, `ollama pull qwen3.5:4b`):
+python -m tuning.evaluate --model qwen3.5:4b --num-ctx 2048 --profile --split test fresh   # creates qwen3.5-4b-ctx2048
+python scenario_numbers.py --ollama --model qwen3.5-4b-ctx2048      # all scenarios on the tuned profile
+```
 
 ## How the agent is put together
 
@@ -43,13 +58,17 @@ The model only *reads* member messages and calls tools. Everything that can hurt
 
 ## Tests (Part 2)
 
-`pytest -q`: 267 tests, all on the fake model or scripted clients, no network. Besides the five the brief
+`pytest -q`: 367 tests, all on the fake model or scripted clients, no network. Besides the five the brief
 asks for (a leak, a double send, a wrong confirmation, a silent vendor, a vendor asking for personal details),
 they cover duplicate WhatsApp messages, double approval, timeouts and retries with the same idempotency key, a
 model that loops, crashes or writes private data, cancellations before and after sending, prompt injection in a
 member message, vendor replies that change the booking or are unclear, and messages none of the scenarios use
 (`tests/test_unseen_messages.py`). Leak checks use an independent scanner (`tests/support.py`), not the agent's
-own, and a test proves it catches a planted leak.
+own, and a test proves it catches a planted leak. `tests/test_robustness.py` (~100 cases) throws odd input at
+every entry point: empty, huge or control-character messages, impossible dates, malformed and hostile tool
+calls, odd vendor replies, garbage approval ids, eight people approving at the same moment (one send), and a
+broken ticket during the timers. Between them, these tests and the live runs found two crashes (a list passed
+as an approval id; "31 Nov" reaching the chatter gate), both fixed.
 
 ## Numbers (Part 2)
 

@@ -166,10 +166,10 @@ def main() -> None:
     tok = AutoTokenizer.from_pretrained(BASE)
 
     rows = T.unique(T.majority_fix(T.load())[0])
-    texts, labels = [t for t, _ in rows], [l for _, l in rows]
+    texts, labels = [t for t, _ in rows], [label for _, label in rows]
     groups = [T.template(t) for t in texts]
     dropped = frozenset(i for i, _ in T.flag_mislabelled(T.CANDIDATES[T.CHOSEN], texts, labels, groups))
-    y = np.array([l == T.REQUEST for l in labels], dtype=int)
+    y = np.array([label == T.REQUEST for label in labels], dtype=int)
     is_request, clean = y == 1, np.array([i not in dropped for i in range(len(texts))])
     print(f"{len(texts)} unique rows, {len(dropped)} left out as likely mislabelled (same as train.py)")
 
@@ -194,7 +194,7 @@ def main() -> None:
     train_seconds = time.perf_counter() - t0
     unseen = T.unseen_phrasings()
     unseen_texts = [t for t, _ in unseen]
-    unseen_y = np.array([l == T.REQUEST for _, l in unseen])
+    unseen_y = np.array([label == T.REQUEST for _, label in unseen])
     bge_unseen = scores(final, unseen_texts, tok)
     tfidf = T.CANDIDATES[T.CHOSEN]().fit([texts[i] for i in keep], [labels[i] for i in keep])
     tfidf_unseen = T.p_request(tfidf, unseen_texts)
@@ -225,7 +225,7 @@ def main() -> None:
             results[name + suffix] = {
                 "threshold": th, "cv_given_labels": g, "cv_clean_rows": T.metrics(o[clean], is_request[clean], th),
                 "unseen": un, "unseen_cost": cost,
-                "unseen_wrong": [f"{l} p={s:.2f}: {t}" for (t, l), s in zip(unseen, u) if (s >= th) != (l == T.REQUEST)]}
+                "unseen_wrong": [f"{label} p={s:.2f}: {t}" for (t, label), s in zip(unseen, u) if (s >= th) != (label == T.REQUEST)]}
             print(f"{(name + suffix)[:40]:<40}{th:>5.2f} | {g['accuracy']:>9.3f}{g['request_recall']:>8.3f} | "
                   f"{un['accuracy']:>7.3f}{un['request_recall']:>8.3f}{un['missed_requests']:>7}"
                   f"{un['false_alarms']:>6}{cost:>6}")
@@ -247,7 +247,7 @@ def main() -> None:
         "train_seconds_final": round(train_seconds, 1), "onnx_sizes_mb": sizes,
         "onnx_cpu_speed": {k: {kk: vv for kk, vv in v.items() if kk != "scores"} for k, v in onnx.items()},
         "results": results}, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"\nCPU speed (ms per message): " + ", ".join(
+    print("\nCPU speed (ms per message): " + ", ".join(
         f"{k}: {v['ms_one_by_one']} one by one, {v['ms_in_batch']} in a batch (max diff vs torch {v['max_diff_vs_torch']})"
         for k, v in onnx.items()))
     print(f"wrote {OUT_DIR} and {REPORT_FILE.name} in {time.perf_counter() - started:.0f}s")

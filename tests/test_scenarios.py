@@ -3,10 +3,9 @@
 `world.transport.sent` is the ground truth: it is everything any vendor received.
 """
 import pytest
+from support import FRIDAY, SATURDAY, SUNDAY, TOMORROW, leaks_in_sent, run_scenario, sent_texts, ticket
 
 from world import SCENARIOS
-
-from support import FRIDAY, SATURDAY, SUNDAY, TOMORROW, leaks_in_sent, run_scenario, sent_texts, ticket
 
 
 # ---- rules every scenario must keep ----------------------------------------

@@ -66,7 +66,7 @@ def main() -> None:
     p.add_argument("--anthropic", action="store_true", help="call the real Claude API instead of Ollama")
     a = p.parse_args()
     data = hundred()
-    texts, truth = [t for t, _ in data], [l for _, l in data]
+    texts, truth = [t for t, _ in data], [label for _, label in data]
 
     predict(["warm up"])
     started = time.perf_counter()
@@ -111,8 +111,8 @@ def main() -> None:
                                       "basis": "measured" if a.anthropic else
                                       f"qwen token counts x{CLAUDE_TOKENIZER_FACTOR} at ${HAIKU_PRICE[0]}/"
                                       f"${HAIKU_PRICE[1]} per million in/out tokens; not run (no API key)"},
-        "llm_wrong": [f"{l}: {t}" for (t, l), s in zip(data, llm) if s != l],
-        "small_model_wrong": [f"{l}: {t}" for (t, l), s in zip(data, small) if s != l],
+        "llm_wrong": [f"{label}: {t}" for (t, label), s in zip(data, llm) if s != label],
+        "small_model_wrong": [f"{label}: {t}" for (t, label), s in zip(data, small) if s != label],
     }
     OUT.write_text(json.dumps(result, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     s, m = result["small_model"], result["llm"]

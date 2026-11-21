@@ -3,11 +3,10 @@ decides what is sent, when, and how often."""
 import json
 
 import pytest
+from support import SATURDAY, LoopingClient, ScriptedClient, approve_all, make, sent_texts
 
 from world.events import parse_event
 from world.transport import TransportTimeout
-
-from support import SATURDAY, LoopingClient, ScriptedClient, approve_all, make, sent_texts
 
 M = "M001"
 BOOKING = {"member_id": M, "category": "dining", "request_summary": "Koen Saturday", "venue": "Koen",

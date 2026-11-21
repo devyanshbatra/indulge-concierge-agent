@@ -3,11 +3,10 @@ and a check that the tests' own leak oracle really finds leaks."""
 from datetime import datetime
 
 import pytest
+from support import SATURDAY, independent_leaks
 
 from agent.intake import Intake, check_category, resolve_fields
 from world.data import load_data
-
-from support import SATURDAY, independent_leaks
 
 NOW = datetime(2026, 11, 2, 10, 0)
 VENUES = ["Casa Lumen", "Saffron Terrace", "The Blue Door", "Koen", "Mirabelle"]

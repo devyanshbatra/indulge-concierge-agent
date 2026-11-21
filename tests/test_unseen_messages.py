@@ -10,7 +10,6 @@ Each case says what a good concierge desk would end up with:
 from dataclasses import dataclass
 
 import pytest
-
 from support import FRIDAY, SATURDAY, SUNDAY, THURSDAY, TOMORROW, approve_all, leaks_in_sent, make, sent_texts
 
 TODAY, WEDNESDAY = "2026-11-02", "2026-11-04"

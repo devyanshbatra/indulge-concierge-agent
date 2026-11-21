@@ -1,13 +1,13 @@
 """Model call settings: what reaches the API, the lean one-call flow, and profiles."""
 import json
 
+from support import SATURDAY, ScriptedClient, make
+
 from agent import Concierge, profiles
 from agent.intake import LEAN_PROMPT, SYSTEM_PROMPT
 from agent.loop import ModelSettings
 from agent.tools import TOOLS, TOOLS_SHORT
 from world import World
-
-from support import SATURDAY, ScriptedClient, make
 
 TEXT = "Book Koen for Saturday 8pm, table for 4"
 BOOKING = {"member_id": "M001", "category": "dining", "request_summary": "Koen Saturday", "venue": "Koen",

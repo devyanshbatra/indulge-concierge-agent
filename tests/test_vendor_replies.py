@@ -3,11 +3,10 @@ booking that does not match, and cannot talk us into sending anything."""
 from datetime import datetime
 
 import pytest
+from support import SATURDAY, approve_all, make, sent_texts
 
 from agent.state import Ticket
 from agent.verify import read_reply
-
-from support import SATURDAY, approve_all, make, sent_texts
 
 VENUES = ["Casa Lumen", "Saffron Terrace", "The Blue Door", "Koen", "Mirabelle"]
 NOW = datetime(2026, 11, 2, 10, 0)

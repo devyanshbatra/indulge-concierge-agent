@@ -178,10 +178,10 @@ def unseen_phrasings() -> list[tuple[str, str]]:
 def build(threshold: float) -> dict:
     """The shipped model, trained the same way without the report (used if model.joblib cannot be read)."""
     rows = unique(majority_fix(load())[0])
-    texts, labels = [t for t, _ in rows], [l for _, l in rows]
+    texts, labels = [t for t, _ in rows], [label for _, label in rows]
     dropped = {i for i, _ in flag_mislabelled(CANDIDATES[CHOSEN], texts, labels, [template(t) for t in texts])}
     model = CANDIDATES[CHOSEN]().fit([t for i, t in enumerate(texts) if i not in dropped],
-                                     [l for i, l in enumerate(labels) if i not in dropped])
+                                     [label for i, label in enumerate(labels) if i not in dropped])
     return {"model": model, "threshold": threshold, "name": CHOSEN}
 
 
@@ -189,12 +189,12 @@ def main() -> None:
     started = time.perf_counter()
     raw = load()
     print(f"{len(raw)} rows, {len({t for t, _ in raw})} different texts, "
-          f"{len({template(t) for t, _ in raw})} templates; labels {dict(Counter(l for _, l in raw))}")
+          f"{len({template(t) for t, _ in raw})} templates; labels {dict(Counter(label for _, label in raw))}")
 
     rows, majority_changes = majority_fix(raw)
     print(f"\n1. {len(majority_changes)} labels set to the majority label of the same text")
     rows = unique(rows)
-    texts, labels = [t for t, _ in rows], [l for _, l in rows]
+    texts, labels = [t for t, _ in rows], [label for _, label in rows]
     groups = [template(t) for t in texts]
 
     print(f"2. looking for labels the cross-validated model is very sure are wrong ({len(rows)} unique rows)")
@@ -209,7 +209,7 @@ def main() -> None:
     for i, p in flagged:
         print(f"   {labels[i]:<12} p={p:.2f}  {texts[i]}")
     dropped = frozenset(i for i, _ in flagged)
-    is_request = np.array([l == REQUEST for l in labels])
+    is_request = np.array([label == REQUEST for label in labels])
     clean_rows = np.array([i not in dropped for i in range(len(texts))])
 
     print(f"\n3. comparing models. Cross-validation is grouped by template; flagged rows are never trained on "
@@ -217,13 +217,13 @@ def main() -> None:
           f"   Threshold: lowest cost on the clean rows, {MISS_COST}x per missed request, 1x per false alarm.")
     unseen = unseen_phrasings()
     unseen_texts = [t for t, _ in unseen]
-    unseen_is_request = np.array([l == REQUEST for _, l in unseen])
+    unseen_is_request = np.array([label == REQUEST for _, label in unseen])
     comparison = {}
     for name, make in CANDIDATES.items():
         oof = out_of_fold(make, texts, labels, groups, skip=dropped)
         threshold = best_threshold(oof[clean_rows], is_request[clean_rows])
         model = make().fit([t for i, t in enumerate(texts) if i not in dropped],
-                           [l for i, l in enumerate(labels) if i not in dropped])
+                           [label for i, label in enumerate(labels) if i not in dropped])
         comparison[name] = {
             "threshold": threshold, "auc_given_labels": round(roc_auc_score(is_request, oof), 4),
             "cv_given_labels": metrics(oof, is_request, threshold),
@@ -235,15 +235,15 @@ def main() -> None:
               f"missed {u['missed_requests']} false alarms {u['false_alarms']}  (threshold {threshold:.2f})")
 
     texts = [t for i, t in enumerate(texts) if i not in dropped]
-    labels = [l for i, l in enumerate(labels) if i not in dropped]
+    labels = [label for i, label in enumerate(labels) if i not in dropped]
     print(f"\n4-5. fitting '{CHOSEN}' on all {len(texts)} cleaned rows")
     final = CANDIDATES[CHOSEN]().fit(texts, labels)
     threshold = comparison[CHOSEN]["threshold"]
     joblib.dump({"model": final, "threshold": threshold, "name": CHOSEN}, MODEL_FILE)
-    misses = [(t, l, round(float(s), 3)) for (t, l), s in zip(unseen, p_request(final, unseen_texts))
-              if (s >= threshold) != (l == REQUEST)]
-    for t, l, s in misses:
-        print(f"   unseen, wrong: {l:<12} p(request)={s:.2f}  {t}")
+    misses = [(t, label, round(float(s), 3)) for (t, label), s in zip(unseen, p_request(final, unseen_texts))
+              if (s >= threshold) != (label == REQUEST)]
+    for t, label, s in misses:
+        print(f"   unseen, wrong: {label:<12} p(request)={s:.2f}  {t}")
     REPORT_FILE.write_text(json.dumps({
         "rows": len(raw), "unique_rows_used": len(texts), "relabelled_by_majority": len(majority_changes),
         "left_out_as_likely_mislabelled": len(flagged), "chosen": CHOSEN, "threshold": threshold,
