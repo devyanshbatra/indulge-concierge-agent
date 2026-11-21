@@ -1,0 +1,191 @@
+{
+  "base": "BAAI/bge-small-en-v1.5",
+  "precision": "mixed fp16",
+  "epochs": 4,
+  "batch": 32,
+  "lr": 5e-05,
+  "max_len": 64,
+  "device": "cuda",
+  "peak_gpu_mb": 742,
+  "fold_seconds_mean": 14.6,
+  "train_seconds_final": 9.7,
+  "onnx_sizes_mb": {
+    "fp32_mb": 133.1,
+    "int8_mb": 33.9
+  },
+  "onnx_cpu_speed": {
+    "fp32": {
+      "ms_one_by_one": 7.07,
+      "ms_in_batch": 11.71,
+      "max_diff_vs_torch": 0.0
+    },
+    "int8": {
+      "ms_one_by_one": 5.32,
+      "ms_in_batch": 8.17,
+      "max_diff_vs_torch": 0.5346
+    }
+  },
+  "results": {
+    "tf-idf (shipped)": {
+      "threshold": 0.48,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9457,
+        "request_recall": 0.9912,
+        "request_precision": 0.9262,
+        "f1": 0.9576,
+        "missed_requests": 1,
+        "false_alarms": 9,
+        "n": 184
+      },
+      "unseen_cost": 14,
+      "unseen_wrong": [
+        "not_request p=0.69: My email has changed to arjun.m@example.com",
+        "not_request p=0.50: No need, we found a place already",
+        "not_request p=0.74: I'll get back to you about Sunday",
+        "not_request p=0.62: Let me check with Divya and revert",
+        "not_request p=0.52: Not sure yet about the weekend plans",
+        "not_request p=0.74: The hotel is stunning",
+        "not_request p=0.88: Appreciate the quick help yesterday",
+        "not_request p=0.51: Alright",
+        "not_request p=0.55: Ok cool see you tomorrow",
+        "request p=0.21: Actually cancel that, plans changed. Sorry!"
+      ]
+    },
+    "bge-small fine-tuned (torch)": {
+      "threshold": 0.95,
+      "cv_given_labels": {
+        "accuracy": 0.9561,
+        "request_recall": 0.9955,
+        "request_precision": 0.9408,
+        "f1": 0.9674,
+        "missed_requests": 3,
+        "false_alarms": 42,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 0.982,
+        "request_recall": 1.0,
+        "request_precision": 0.9737,
+        "f1": 0.9867,
+        "missed_requests": 0,
+        "false_alarms": 18,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9565,
+        "request_recall": 0.9386,
+        "request_precision": 0.9907,
+        "f1": 0.964,
+        "missed_requests": 7,
+        "false_alarms": 1,
+        "n": 184
+      },
+      "unseen_cost": 36,
+      "unseen_wrong": [
+        "request p=0.92: The car hasn't turned up yet",
+        "request p=0.93: Drop the Friday dinner, something came up",
+        "request p=0.93: The flowers that arrived are wilted, please sort this out",
+        "not_request p=0.96: Not sure yet about the weekend plans",
+        "request p=0.92: Something nice for the weekend? Divya's been working too hard 😅",
+        "request p=0.01: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.89: cancel it please",
+        "request p=0.01: Actually cancel that, plans changed. Sorry!"
+      ]
+    },
+    "bge-small fine-tuned, onnx int8": {
+      "threshold": 0.95,
+      "cv_given_labels": {
+        "accuracy": 0.9561,
+        "request_recall": 0.9955,
+        "request_precision": 0.9408,
+        "f1": 0.9674,
+        "missed_requests": 3,
+        "false_alarms": 42,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 0.982,
+        "request_recall": 1.0,
+        "request_precision": 0.9737,
+        "f1": 0.9867,
+        "missed_requests": 0,
+        "false_alarms": 18,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.962,
+        "request_recall": 0.9386,
+        "request_precision": 1.0,
+        "f1": 0.9683,
+        "missed_requests": 7,
+        "false_alarms": 0,
+        "n": 184
+      },
+      "unseen_cost": 35,
+      "unseen_wrong": [
+        "request p=0.67: The car hasn't turned up yet",
+        "request p=0.43: Still waiting on the confirmation for tonight",
+        "request p=0.77: Drop the Friday dinner, something came up",
+        "request p=0.83: The flowers that arrived are wilted, please sort this out",
+        "request p=0.01: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.93: cancel it please",
+        "request p=0.01: Actually cancel that, plans changed. Sorry!"
+      ]
+    },
+    "average of tf-idf and fine-tuned bge": {
+      "threshold": 0.72,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9783,
+        "request_recall": 0.9825,
+        "request_precision": 0.9825,
+        "f1": 0.9825,
+        "missed_requests": 2,
+        "false_alarms": 2,
+        "n": 184
+      },
+      "unseen_cost": 12,
+      "unseen_wrong": [
+        "not_request p=0.75: Let me check with Divya and revert",
+        "not_request p=0.74: Not sure yet about the weekend plans",
+        "request p=0.40: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.11: Actually cancel that, plans changed. Sorry!"
+      ]
+    }
+  }
+}

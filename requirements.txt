@@ -8,3 +8,5 @@ joblib
 numpy
 # Only for tuning a local model (tuning/):
 optuna>=4
+# Only for the transformer experiment (classifier/finetune.py), not needed to run anything else:
+#   torch transformers onnx onnxscript onnxruntime tokenizers

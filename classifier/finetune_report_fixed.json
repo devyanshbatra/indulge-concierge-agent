@@ -1,0 +1,314 @@
+{
+  "base": "BAAI/bge-small-en-v1.5",
+  "precision": "fp32",
+  "epochs": 2,
+  "batch": 32,
+  "lr": 5e-05,
+  "label_smoothing": 0.1,
+  "fixed_threshold": 0.5,
+  "max_len": 64,
+  "device": "cuda",
+  "peak_gpu_mb": 757,
+  "fold_seconds_mean": 4.5,
+  "train_seconds_final": 4.6,
+  "onnx_sizes_mb": {
+    "fp32_mb": 133.1,
+    "int8_mb": 33.9
+  },
+  "onnx_cpu_speed": {
+    "fp32": {
+      "ms_one_by_one": 7.54,
+      "ms_in_batch": 12.03,
+      "max_diff_vs_torch": 0.0
+    },
+    "int8": {
+      "ms_one_by_one": 4.65,
+      "ms_in_batch": 8.57,
+      "max_diff_vs_torch": 0.2052
+    }
+  },
+  "results": {
+    "tf-idf (shipped)": {
+      "threshold": 0.48,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9457,
+        "request_recall": 0.9912,
+        "request_precision": 0.9262,
+        "f1": 0.9576,
+        "missed_requests": 1,
+        "false_alarms": 9,
+        "n": 184
+      },
+      "unseen_cost": 14,
+      "unseen_wrong": [
+        "not_request p=0.69: My email has changed to arjun.m@example.com",
+        "not_request p=0.50: No need, we found a place already",
+        "not_request p=0.74: I'll get back to you about Sunday",
+        "not_request p=0.62: Let me check with Divya and revert",
+        "not_request p=0.52: Not sure yet about the weekend plans",
+        "not_request p=0.74: The hotel is stunning",
+        "not_request p=0.88: Appreciate the quick help yesterday",
+        "not_request p=0.51: Alright",
+        "not_request p=0.55: Ok cool see you tomorrow",
+        "request p=0.21: Actually cancel that, plans changed. Sorry!"
+      ]
+    },
+    "bge-small fine-tuned (torch)": {
+      "threshold": 0.5,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9457,
+        "request_recall": 0.9211,
+        "request_precision": 0.9906,
+        "f1": 0.9545,
+        "missed_requests": 9,
+        "false_alarms": 1,
+        "n": 184
+      },
+      "unseen_cost": 46,
+      "unseen_wrong": [
+        "request p=0.46: Drop the Friday dinner, something came up",
+        "request p=0.49: Please renew the magazine subscription",
+        "request p=0.45: The flowers that arrived are wilted, please sort this out",
+        "not_request p=0.67: Not sure yet about the weekend plans",
+        "request p=0.40: Something nice for the weekend? Divya's been working too hard 😅",
+        "request p=0.08: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.18: 3 of us at The Blue Door, Thursday, 9.30 pm",
+        "request p=0.46: cancel it please",
+        "request p=0.05: Actually cancel that, plans changed. Sorry!",
+        "request p=0.44: Push it to 9:30 pm"
+      ]
+    },
+    "bge-small fine-tuned (torch) [cv threshold]": {
+      "threshold": 0.43,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9728,
+        "request_recall": 0.9649,
+        "request_precision": 0.991,
+        "f1": 0.9778,
+        "missed_requests": 4,
+        "false_alarms": 1,
+        "n": 184
+      },
+      "unseen_cost": 21,
+      "unseen_wrong": [
+        "not_request p=0.67: Not sure yet about the weekend plans",
+        "request p=0.40: Something nice for the weekend? Divya's been working too hard 😅",
+        "request p=0.08: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.18: 3 of us at The Blue Door, Thursday, 9.30 pm",
+        "request p=0.05: Actually cancel that, plans changed. Sorry!"
+      ]
+    },
+    "bge-small fine-tuned, onnx int8": {
+      "threshold": 0.5,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9402,
+        "request_recall": 0.9123,
+        "request_precision": 0.9905,
+        "f1": 0.9498,
+        "missed_requests": 10,
+        "false_alarms": 1,
+        "n": 184
+      },
+      "unseen_cost": 51,
+      "unseen_wrong": [
+        "request p=0.33: Still waiting on the confirmation for tonight",
+        "request p=0.38: Drop the Friday dinner, something came up",
+        "request p=0.35: The flowers that arrived are wilted, please sort this out",
+        "not_request p=0.65: Not sure yet about the weekend plans",
+        "request p=0.26: Something nice for the weekend? Divya's been working too hard 😅",
+        "request p=0.10: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.34: 3 of us at The Blue Door, Thursday, 9.30 pm",
+        "request p=0.44: Book something nice for our anniversary",
+        "request p=0.46: cancel it please",
+        "request p=0.05: Actually cancel that, plans changed. Sorry!",
+        "request p=0.45: Push it to 9:30 pm"
+      ]
+    },
+    "bge-small fine-tuned, onnx int8 [cv threshold]": {
+      "threshold": 0.43,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9565,
+        "request_recall": 0.9386,
+        "request_precision": 0.9907,
+        "f1": 0.964,
+        "missed_requests": 7,
+        "false_alarms": 1,
+        "n": 184
+      },
+      "unseen_cost": 36,
+      "unseen_wrong": [
+        "request p=0.33: Still waiting on the confirmation for tonight",
+        "request p=0.38: Drop the Friday dinner, something came up",
+        "request p=0.35: The flowers that arrived are wilted, please sort this out",
+        "not_request p=0.65: Not sure yet about the weekend plans",
+        "request p=0.26: Something nice for the weekend? Divya's been working too hard 😅",
+        "request p=0.10: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.34: 3 of us at The Blue Door, Thursday, 9.30 pm",
+        "request p=0.05: Actually cancel that, plans changed. Sorry!"
+      ]
+    },
+    "average of tf-idf and fine-tuned bge": {
+      "threshold": 0.5,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9837,
+        "request_recall": 0.9825,
+        "request_precision": 0.9912,
+        "f1": 0.9868,
+        "missed_requests": 2,
+        "false_alarms": 1,
+        "n": 184
+      },
+      "unseen_cost": 11,
+      "unseen_wrong": [
+        "not_request p=0.60: Not sure yet about the weekend plans",
+        "request p=0.43: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.13: Actually cancel that, plans changed. Sorry!"
+      ]
+    },
+    "average of tf-idf and fine-tuned bge [cv threshold]": {
+      "threshold": 0.45,
+      "cv_given_labels": {
+        "accuracy": 0.9737,
+        "request_recall": 0.9955,
+        "request_precision": 0.9653,
+        "f1": 0.9802,
+        "missed_requests": 3,
+        "false_alarms": 24,
+        "n": 1025
+      },
+      "cv_clean_rows": {
+        "accuracy": 1.0,
+        "request_recall": 1.0,
+        "request_precision": 1.0,
+        "f1": 1.0,
+        "missed_requests": 0,
+        "false_alarms": 0,
+        "n": 998
+      },
+      "unseen": {
+        "accuracy": 0.9783,
+        "request_recall": 0.9825,
+        "request_precision": 0.9825,
+        "f1": 0.9825,
+        "missed_requests": 2,
+        "false_alarms": 2,
+        "n": 184
+      },
+      "unseen_cost": 12,
+      "unseen_wrong": [
+        "not_request p=0.46: Let me check with Divya and revert",
+        "not_request p=0.60: Not sure yet about the weekend plans",
+        "request p=0.43: Koen, this Sat, half past eight in the evening, four of us",
+        "request p=0.13: Actually cancel that, plans changed. Sorry!"
+      ]
+    }
+  }
+}

@@ -8,3 +8,8 @@ tuning/optuna.db
 # original download archives and their unpacked duplicates
 *.zip
 agent-*-001/
+
+# fine-tuned transformer experiment (classifier/finetune.py): large ONNX files and noisy logs, not shipped
+classifier/bge_*/
+classifier/finetune_*.log
+tuning/search.log
