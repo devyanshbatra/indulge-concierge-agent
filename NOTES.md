@@ -196,8 +196,8 @@ half on the Ryzen 7 CPU), no API key, every Optuna trial capped at 12 minutes.
 - `qwen3.5:4b` misread "This Wednesday" once in 10 fresh cases (caught, sent to a person); Hinglish is weaker.
 - The tuning sets are small (26 dev / 24 test / 10 fresh); I would grow them from real traffic.
 - Run on Windows with `PYTHONUTF8=1` (or `python -X utf8`): `world/data.py` opens files with the system encoding.
-- Time: about 8 hours (git history starts at 15:34), well over the 4 hours asked for. Most of the extra went
-  into running a local model, since I could not use an API key, and into tuning it.
+- Time: about 8 hours of continuous work (about 15:00 to 23:00), well over the 4 hours asked for. Most of the
+  extra went into running a local model, since I could not use an API key, and into tuning it.
 
 ## How I used AI tools
 
