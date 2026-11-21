@@ -1,6 +1,8 @@
 # The world and the fake model need nothing beyond the Python standard library.
 pytest>=8
-# Only for --live runs against real Claude:
+# Only for --live runs (real Claude, or a local model served by Ollama):
 anthropic
-# For the small-model part, use whatever you like (scikit-learn, PyTorch, ...).
-# Add it here.
+# For the small-model part (classifier/):
+scikit-learn>=1.5
+joblib
+numpy
