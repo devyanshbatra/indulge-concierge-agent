@@ -25,7 +25,7 @@ from .evaluate import evaluate, with_context
 
 HERE = Path(__file__).parent
 STORAGE = f"sqlite:///{(HERE / 'optuna.db').as_posix()}"
-STUDY = "qwen-intake"
+STUDY = "qwen-intake-v2"  # v1 was stopped after one trial: the lean prompts told the model to escalate chatter
 RESULTS = HERE / "results.json"
 TRIAL_BUDGET_SECONDS = 12 * 60  # a slower setting is stopped; its unfinished cases count as wrong
 MODELS = ["qwen3.5:0.8b", "qwen3.5:2b", "qwen3.5:4b"]
