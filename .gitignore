@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.env
+
+# original download archives and their unpacked duplicates
+*.zip
+agent-*-001/
