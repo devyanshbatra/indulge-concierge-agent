@@ -14,28 +14,29 @@ from datetime import timedelta
 from world.events import render_group_message
 from world.transport import TransportTimeout
 
-from .intake import SYSTEM_PROMPT, Intake
+from .intake import LEAN_FINAL_TOOLS, PROMPTS, Intake
 from .leaks import LeakScanner
-from .loop import Meter, run_tool_loop
+from .loop import Meter, ModelSettings, run_tool_loop
 from .outbound import cancel_message, chase_message, extras, held_back, job_message
+from .profiles import settings_for
 from .state import FIELD_WORDS, Proposal, Store, Ticket
-from .tools import TOOLS, Tools
+from .tools import TOOL_SETS, Tools
 from .verify import read_reply
 
 CHASE_AFTER_MINUTES = 20      # silence before the one reminder
 HANDOVER_AFTER_MINUTES = 45   # silence (since the job was sent) before a human takes over
 APPROVAL_NUDGE_MINUTES = 30   # a proposal nobody approved gets one reminder alert
-MAX_MODEL_STEPS = 8
-MAX_TOKENS = 4096             # room for a thinking model to reason before its tool call
 SEND_ATTEMPTS = 3             # retries reuse the same idempotency key, so they cannot double-send
 
 
 class Concierge:
-    def __init__(self, world, client, model: str = "claude-haiku-5-5"):
-        """`client` is FakeAnthropic(...) or anthropic.Anthropic(). Same interface."""
+    def __init__(self, world, client, model: str = "claude-haiku-5-5", settings: ModelSettings | None = None):
+        """`client` is FakeAnthropic(...) or anthropic.Anthropic(). Same interface.
+        `settings` defaults to the tuned profile for `model`, if there is one."""
         self.world = world
         self.client = client
         self.model = model
+        self.settings = settings or settings_for(model)
         self.data = world.data
         self.house = world.data.house
         self.clock = world.clock
@@ -54,10 +55,14 @@ class Concierge:
             intake = Intake(group_id=group_id, member_id=member_id, sender=sender, text=text,
                             message_id=message_id, at=self.clock.now)
             alerts_before = len(self.store.alerts)
+            s = self.settings
             try:
-                result = run_tool_loop(self.client, model=self.model, system=SYSTEM_PROMPT, tools=TOOLS,
-                                       prompt=self._render(intake), run_tool=Tools(self, intake).run,
-                                       meter=self.meter, max_steps=MAX_MODEL_STEPS, max_tokens=MAX_TOKENS)
+                result = run_tool_loop(self.client, model=self.model, system=PROMPTS[s.prompt],
+                                       tools=TOOL_SETS[s.tool_text], prompt=self._render(intake),
+                                       run_tool=Tools(self, intake).run, meter=self.meter,
+                                       max_steps=s.max_steps, max_tokens=s.max_tokens,
+                                       options=s.request_options(),
+                                       stop_after=LEAN_FINAL_TOOLS if s.lean else frozenset())
             except Exception as exc:  # model down, rate limited, bad response...
                 self.alert(intake.ticket_id, f"The model failed on message {message_id} in {group_id} ({exc!r}). "
                                              f"Please read it by hand: {text!r}")

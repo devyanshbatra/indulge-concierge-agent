@@ -65,6 +65,35 @@ TOOLS = [
 ]
 TOOL_NAMES = {tool["name"] for tool in TOOLS}
 
+# The same tools with shorter descriptions: fewer prompt tokens for small local models.
+_SHORT = {
+    "get_member": "Member preferences and open tickets.",
+    "create_ticket": "Open a ticket. null for anything not said.",
+    "list_open_tickets": "The member's open tickets.",
+    "find_vendors": "Vendors for a category.",
+    "propose_job": "Queue a vendor job for a human to approve.",
+    "message_vendor": "Queue a follow-up for a human to approve.",
+    "update_ticket": "Set status cancelled, needs_info or needs_human.",
+    "notify_human": "Ask our team to look.",
+}
+_SHORT_FIELDS = {"date": "YYYY-MM-DD", "time": "HH:MM 24h; 8:30 pm = 20:30",
+                 "category": "dining, transport, flowers, travel or other"}
+
+
+def _shorten(tool: dict) -> dict:
+    properties = {}
+    for name, spec in tool["input_schema"]["properties"].items():
+        spec = {k: v for k, v in spec.items() if k != "description"}
+        if name in _SHORT_FIELDS:
+            spec["description"] = _SHORT_FIELDS[name]
+        properties[name] = spec
+    return {"name": tool["name"], "description": _SHORT[tool["name"]],
+            "input_schema": {**tool["input_schema"], "properties": properties}}
+
+
+TOOLS_SHORT = [_shorten(tool) for tool in TOOLS]
+TOOL_SETS = {"full": TOOLS, "short": TOOLS_SHORT}
+
 
 class Tools:
     """Runs tool calls for one member message. `desk` is the Concierge."""

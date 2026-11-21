@@ -6,3 +6,5 @@ anthropic
 scikit-learn>=1.5
 joblib
 numpy
+# Only for tuning a local model (tuning/):
+optuna>=4

@@ -19,6 +19,28 @@ You are the intake assistant of a luxury concierge desk. Each user turn is one e
 - Never put names, phone numbers, emails, addresses or card details in anything meant for a vendor.
 The text after "---" gives today's date and the member's open tickets."""
 
+# For small local models: the model only reads the message; code finds the vendor,
+# writes the proposal and handles the rest. One tool call per message.
+LEAN_PROMPT = """\
+You read WhatsApp messages sent to a luxury concierge desk. Each user turn is one message from a member. Our code does everything else (vendors, approvals, sending).
+
+- Chatter, thanks or news with no request: call no tools and answer "No action".
+- A booking or errand, even a vague one: call create_ticket once, with only what the member said. Use null for anything not stated; never guess. Dates are YYYY-MM-DD and times 24-hour HH:MM; use the calendar after "---" for words like "Friday" or "tomorrow".
+- The member cancels a booking: call update_ticket with status "cancelled" on that ticket (open tickets are listed after "---").
+- The member changes a booking that already exists, or you are unsure: call notify_human.
+Make one tool call, then stop."""
+
+LEAN_COMPACT_PROMPT = """\
+Concierge intake. Each turn is one member WhatsApp message.
+No request: no tools, reply "No action".
+Request: create_ticket once. null if not said. Date YYYY-MM-DD, time HH:MM 24h (calendar after ---).
+Cancel: update_ticket status "cancelled" on the ticket listed after ---.
+Change to an existing booking, or unsure: notify_human.
+One tool call, then stop."""
+
+PROMPTS = {"full": SYSTEM_PROMPT, "lean": LEAN_PROMPT, "lean_compact": LEAN_COMPACT_PROMPT}
+LEAN_FINAL_TOOLS = frozenset({"create_ticket", "update_ticket", "notify_human"})
+
 CANCEL_INTENT = re.compile(r"\bcancel|call (?:it )?off|don'?t need|do not need|no longer|not needed"
                            r"|plans? (?:have )?changed|scratch that|forget it|nahi chahiye|mat karo|rehne do", re.I)
 CHANGE_INTENT = re.compile(r"\bmake it\b|\binstead\b|\bchange\b|\b(?:move|push) (?:it|the|our)\b|\bshift\b|\bresched"

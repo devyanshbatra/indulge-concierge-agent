@@ -36,6 +36,34 @@ class Meter:
                 "model_seconds": round(self.seconds, 2), "priced": priced}
 
 
+@dataclass(frozen=True)
+class ModelSettings:
+    """How we call the model. The defaults are the plain behaviour for Claude and the fake.
+
+    Tuned values for local models live in agent/model_profiles.json (see tuning/).
+    """
+    max_tokens: int = 4096        # room for a thinking model to reason before its tool call
+    max_steps: int = 8
+    thinking: bool = True         # False asks the model not to think (a big speed-up on small local models)
+    temperature: float | None = None
+    top_p: float | None = None
+    prompt: str = "full"          # "full": the model proposes; "lean"/"lean_compact": it only reads, code does the rest
+    tool_text: str = "full"       # "full" or "short" tool descriptions
+
+    @property
+    def lean(self) -> bool:
+        return self.prompt.startswith("lean")
+
+    def request_options(self) -> dict:
+        options = {}
+        if not self.thinking:
+            options["thinking"] = {"type": "disabled"}
+        sampling = {k: v for k, v in (("temperature", self.temperature), ("top_p", self.top_p)) if v is not None}
+        if sampling:  # SDK 2.x has no keyword for these; Ollama reads them from the body
+            options["extra_body"] = sampling
+        return options
+
+
 @dataclass
 class LoopResult:
     stop: str    # done, max_steps, max_tokens, refusal
@@ -44,12 +72,15 @@ class LoopResult:
 
 
 def run_tool_loop(client, *, model: str, system: str, tools: list, prompt: str, run_tool, meter: Meter,
-                  max_steps: int = 8, max_tokens: int = 2048) -> LoopResult:
+                  max_steps: int = 8, max_tokens: int = 2048, options: dict | None = None,
+                  stop_after: frozenset = frozenset()) -> LoopResult:
+    """`stop_after`: tools that end the turn. When every call in a turn is one of these and
+    none failed, the loop stops without asking the model for a closing sentence."""
     messages = [{"role": "user", "content": prompt}]
     for step in range(1, max_steps + 1):
         started = time.perf_counter()
         response = client.messages.create(model=model, max_tokens=max_tokens, system=system,
-                                          tools=tools, messages=messages)
+                                          tools=tools, messages=messages, **(options or {}))
         meter.add(response.usage, time.perf_counter() - started)
 
         blocks = [b for b in (_as_param(block) for block in response.content) if b]
@@ -68,6 +99,8 @@ def run_tool_loop(client, *, model: str, system: str, tools: list, prompt: str, 
                 result["is_error"] = True
             results.append(result)
         messages.append({"role": "user", "content": results})
+        if stop_after and all(c["name"] in stop_after for c in calls) and not any(r.get("is_error") for r in results):
+            return LoopResult("done", step, "")
     return LoopResult("max_steps", max_steps, "")
 
 

@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .env
+tuning/optuna.db
 
 # original download archives and their unpacked duplicates
 *.zip
