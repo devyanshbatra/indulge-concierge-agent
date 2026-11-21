@@ -85,10 +85,12 @@ class Concierge:
         Never when plain code sees a request, a cancellation or a change, and never if the classifier
         cannot run: a missed request is worse than a wasted call.
         """
-        if not self.settings.gate or intake.wants_cancel or intake.wants_change \
-                or intake.looks_like_request(self.clock.now, self.house["venues"]):
+        if not self.settings.gate:
             return False
-        try:
+        try:  # anything going wrong here (e.g. the shared parser raising on "31 Nov") means: ask the model
+            if intake.wants_cancel or intake.wants_change \
+                    or intake.looks_like_request(self.clock.now, self.house["venues"]):
+                return False
             from classifier.predict import request_scores
             return request_scores([intake.text])[0] < self.settings.gate
         except Exception:

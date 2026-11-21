@@ -95,6 +95,13 @@ def test_gate_never_skips_a_request_a_cancellation_or_a_change():
     assert len(client.requests) == len(texts) and concierge.meter.skipped == 0
 
 
+def test_gate_survives_a_date_the_shared_parser_cannot_read():
+    client = ScriptedClient(["No action"])
+    world, concierge = _gated(client)
+    world.member_says("G-101", "Book Koen for 31 Nov at 8 pm, table for 4")  # world/parse.py raises on this
+    assert len(client.requests) == 1 and concierge.meter.skipped == 0
+
+
 def test_gate_is_off_by_default():
     client = ScriptedClient(["No action"])
     world, concierge = make(client=client)
