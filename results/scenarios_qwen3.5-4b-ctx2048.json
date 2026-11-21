@@ -1,0 +1,235 @@
+{
+  "model": "qwen3.5-4b-ctx2048",
+  "live": true,
+  "untuned": false,
+  "token_counts": "reported by the API",
+  "total": {
+    "calls": 14,
+    "input_tokens": 6264,
+    "output_tokens": 1412,
+    "cost_usd": 0.0,
+    "model_seconds": 122.16,
+    "wall_seconds": 129.75,
+    "haiku_cost_at_these_tokens": 0.001331
+  },
+  "scenarios": [
+    {
+      "scenario": "riya_corner_table",
+      "sent": 1,
+      "tickets": [
+        "confirmed"
+      ],
+      "alerts": 0,
+      "leaks": [],
+      "wall_seconds": 18.75,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.00011,
+      "calls": 1,
+      "input_tokens": 483,
+      "output_tokens": 124,
+      "cache_read_tokens": 966,
+      "cost_usd": 0.0,
+      "model_seconds": 11.26,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "mehta_birthday_wrong_date",
+      "sent": 1,
+      "tickets": [
+        "needs_human"
+      ],
+      "alerts": 1,
+      "leaks": [],
+      "wall_seconds": 11.92,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.000114,
+      "calls": 1,
+      "input_tokens": 503,
+      "output_tokens": 127,
+      "cache_read_tokens": 966,
+      "cost_usd": 0.0,
+      "model_seconds": 11.91,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "kabir_hinglish_double",
+      "sent": 0,
+      "tickets": [
+        "needs_human"
+      ],
+      "alerts": 1,
+      "leaks": [],
+      "wall_seconds": 11.19,
+      "same_outcome_as_fake": false,
+      "haiku_cost_at_these_tokens": 0.000111,
+      "calls": 1,
+      "input_tokens": 471,
+      "output_tokens": 127,
+      "cache_read_tokens": 966,
+      "cost_usd": 0.0,
+      "model_seconds": 11.18,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "sameer_unclear",
+      "sent": 0,
+      "tickets": [
+        "needs_info"
+      ],
+      "alerts": 1,
+      "leaks": [],
+      "wall_seconds": 9.83,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.000104,
+      "calls": 1,
+      "input_tokens": 465,
+      "output_tokens": 115,
+      "cache_read_tokens": 966,
+      "cost_usd": 0.0,
+      "model_seconds": 9.82,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "priya_cancel_before_approval",
+      "sent": 0,
+      "tickets": [
+        "cancelled"
+      ],
+      "alerts": 1,
+      "leaks": [],
+      "wall_seconds": 14.97,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.00019,
+      "calls": 2,
+      "input_tokens": 955,
+      "output_tokens": 190,
+      "cache_read_tokens": 1932,
+      "cost_usd": 0.0,
+      "model_seconds": 14.96,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "priya_cancel_after_send",
+      "sent": 2,
+      "tickets": [
+        "cancelled"
+      ],
+      "alerts": 1,
+      "leaks": [],
+      "wall_seconds": 15.49,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.000191,
+      "calls": 2,
+      "input_tokens": 954,
+      "output_tokens": 191,
+      "cache_read_tokens": 1932,
+      "cost_usd": 0.0,
+      "model_seconds": 15.48,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "riya_silent",
+      "sent": 2,
+      "tickets": [
+        "needs_human"
+      ],
+      "alerts": 1,
+      "leaks": [],
+      "wall_seconds": 10.29,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.000106,
+      "calls": 1,
+      "input_tokens": 469,
+      "output_tokens": 119,
+      "cache_read_tokens": 966,
+      "cost_usd": 0.0,
+      "model_seconds": 10.28,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "riya_asks_phone",
+      "sent": 1,
+      "tickets": [
+        "needs_human"
+      ],
+      "alerts": 1,
+      "leaks": [],
+      "wall_seconds": 10.94,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.000112,
+      "calls": 1,
+      "input_tokens": 465,
+      "output_tokens": 132,
+      "cache_read_tokens": 966,
+      "cost_usd": 0.0,
+      "model_seconds": 10.93,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "mehta_asks_card",
+      "sent": 1,
+      "tickets": [
+        "needs_human"
+      ],
+      "alerts": 1,
+      "leaks": [],
+      "wall_seconds": 10.97,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.000113,
+      "calls": 1,
+      "input_tokens": 468,
+      "output_tokens": 132,
+      "cache_read_tokens": 966,
+      "cost_usd": 0.0,
+      "model_seconds": 10.96,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "kabir_flaky_network",
+      "sent": 1,
+      "tickets": [
+        "confirmed"
+      ],
+      "alerts": 0,
+      "leaks": [],
+      "wall_seconds": 10.38,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 0.000107,
+      "calls": 1,
+      "input_tokens": 463,
+      "output_tokens": 122,
+      "cache_read_tokens": 966,
+      "cost_usd": 0.0,
+      "model_seconds": 10.37,
+      "priced": false,
+      "skipped_by_classifier": 0
+    },
+    {
+      "scenario": "tara_chatter",
+      "sent": 0,
+      "tickets": [],
+      "alerts": 0,
+      "leaks": [],
+      "wall_seconds": 5.02,
+      "same_outcome_as_fake": true,
+      "haiku_cost_at_these_tokens": 7.3e-05,
+      "calls": 2,
+      "input_tokens": 568,
+      "output_tokens": 33,
+      "cache_read_tokens": 2392,
+      "cost_usd": 0.0,
+      "model_seconds": 5.01,
+      "priced": false,
+      "skipped_by_classifier": 2
+    }
+  ]
+}

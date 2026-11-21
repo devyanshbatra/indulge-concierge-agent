@@ -1,0 +1,121 @@
+{
+  "model": "qwen3.5-4b-ctx2048",
+  "settings": {
+    "max_tokens": 512,
+    "max_steps": 8,
+    "thinking": false,
+    "temperature": 0.1,
+    "top_p": 0.5,
+    "prompt": "lean",
+    "tool_text": "short",
+    "gate": 0.1
+  },
+  "test": {
+    "model": "qwen3.5-4b-ctx2048",
+    "settings": {
+      "max_tokens": 512,
+      "max_steps": 8,
+      "thinking": false,
+      "temperature": 0.1,
+      "top_p": 0.5,
+      "prompt": "lean",
+      "tool_text": "short",
+      "gate": 0.1
+    },
+    "cases": 24,
+    "done": 24,
+    "aborted": false,
+    "accuracy": 1.0,
+    "accuracy_done": 1.0,
+    "mean_seconds": 6.833333333333333,
+    "p90_seconds": 9.21,
+    "calls_per_message": 0.9583333333333334,
+    "input_tokens_per_message": 468.6666666666667,
+    "output_tokens_per_message": 100.83333333333333,
+    "wrong_bookings": 0,
+    "model_failures": 0,
+    "misses": []
+  },
+  "fresh": {
+    "model": "qwen3.5-4b-ctx2048",
+    "settings": {
+      "max_tokens": 512,
+      "max_steps": 8,
+      "thinking": false,
+      "temperature": 0.1,
+      "top_p": 0.5,
+      "prompt": "lean",
+      "tool_text": "short",
+      "gate": 0.1
+    },
+    "cases": 10,
+    "done": 10,
+    "aborted": false,
+    "accuracy": 0.9,
+    "accuracy_done": 0.9,
+    "mean_seconds": 7.606,
+    "p90_seconds": 8.92,
+    "calls_per_message": 1.0,
+    "input_tokens_per_message": 474.2,
+    "output_tokens_per_message": 112.5,
+    "wrong_bookings": 0,
+    "model_failures": 0,
+    "misses": [
+      "f_wednesday: ask (Could not read the request safely: date: the model read '2026-11-05' b)"
+    ]
+  },
+  "hinglish": {
+    "model": "qwen3.5-4b-ctx2048",
+    "settings": {
+      "max_tokens": 512,
+      "max_steps": 8,
+      "thinking": false,
+      "temperature": 0.1,
+      "top_p": 0.5,
+      "prompt": "lean",
+      "tool_text": "short",
+      "gate": 0.1
+    },
+    "cases": 4,
+    "done": 4,
+    "aborted": false,
+    "accuracy": 0.75,
+    "accuracy_done": 0.75,
+    "mean_seconds": 7.195,
+    "p90_seconds": 8.09,
+    "calls_per_message": 1.0,
+    "input_tokens_per_message": 482.0,
+    "output_tokens_per_message": 108.25,
+    "wrong_bookings": 0,
+    "model_failures": 0,
+    "misses": [
+      "kabir_hinglish: ask (Could not read the request safely: time: the model read '09:00' but th)"
+    ]
+  },
+  "dev": {
+    "model": "qwen3.5-4b-ctx2048",
+    "settings": {
+      "max_tokens": 512,
+      "max_steps": 8,
+      "thinking": false,
+      "temperature": 0.1,
+      "top_p": 0.5,
+      "prompt": "lean",
+      "tool_text": "short",
+      "gate": 0.1
+    },
+    "cases": 26,
+    "done": 26,
+    "aborted": false,
+    "accuracy": 1.0,
+    "accuracy_done": 1.0,
+    "mean_seconds": 7.05,
+    "p90_seconds": 10.97,
+    "calls_per_message": 0.8846153846153846,
+    "input_tokens_per_message": 423.65384615384613,
+    "output_tokens_per_message": 92.65384615384616,
+    "wrong_bookings": 0,
+    "model_failures": 0,
+    "misses": []
+  }
+}

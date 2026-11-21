@@ -68,9 +68,10 @@
     },
     "tuned_on": "tuning/cases.py English dev half",
     "test_accuracy": 1.0,
-    "test_mean_seconds": 7.08,
+    "test_mean_seconds": 6.83,
     "note": "Optuna trial #6 with temperature lowered to 0.1 (trials #2/#5 at 0.1-0.2 were as fast and as accurate on dev) and the classifier gate on; numbers measured after the calendar fix",
-    "fresh_accuracy": 0.9
+    "fresh_accuracy": 0.9,
+    "measured_in": "tuning/final_4b_gate.json"
   },
   "qwen3.5-4b-ctx2048": {
     "settings": {
@@ -85,8 +86,9 @@
     },
     "tuned_on": "tuning/cases.py English dev half",
     "test_accuracy": 1.0,
-    "test_mean_seconds": 7.08,
+    "test_mean_seconds": 6.83,
     "note": "Optuna trial #6 with temperature lowered to 0.1 (trials #2/#5 at 0.1-0.2 were as fast and as accurate on dev) and the classifier gate on; numbers measured after the calendar fix",
-    "fresh_accuracy": 0.9
+    "fresh_accuracy": 0.9,
+    "measured_in": "tuning/final_4b_gate.json"
   }
 }

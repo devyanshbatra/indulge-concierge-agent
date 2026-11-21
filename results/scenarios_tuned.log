@@ -1,0 +1,15 @@
+﻿scenario                       calls  in tok out tok   cost $  model s  wall s  outcome
+riya_corner_table                  1     483     124   0.0000     11.3    18.8  sent=1 confirmed leaks=no  same as fake
+mehta_birthday_wrong_date          1     503     127   0.0000     11.9    11.9  sent=1 needs_human leaks=no  same as fake
+kabir_hinglish_double              1     471     127   0.0000     11.2    11.2  sent=0 needs_human leaks=no  DIFFERENT from fake
+sameer_unclear                     1     465     115   0.0000      9.8     9.8  sent=0 needs_info leaks=no  same as fake
+priya_cancel_before_approval       2     955     190   0.0000     15.0    15.0  sent=0 cancelled leaks=no  same as fake
+priya_cancel_after_send            2     954     191   0.0000     15.5    15.5  sent=2 cancelled leaks=no  same as fake
+riya_silent                        1     469     119   0.0000     10.3    10.3  sent=2 needs_human leaks=no  same as fake
+riya_asks_phone                    1     465     132   0.0000     10.9    10.9  sent=1 needs_human leaks=no  same as fake
+mehta_asks_card                    1     468     132   0.0000     11.0    11.0  sent=1 needs_human leaks=no  same as fake
+kabir_flaky_network                1     463     122   0.0000     10.4    10.4  sent=1 confirmed leaks=no  same as fake
+tara_chatter                       2     568      33   0.0000      5.0     5.0  sent=0 - leaks=no  same as fake
+TOTAL                             14    6264    1412   0.0000    122.2   129.8
+same outcome as the fake model in 10/11 scenarios; leaks in 0
+wrote C:\Users\ASUS\Downloads\CODES\INDULGE\results\scenarios_qwen3.5-4b-ctx2048.json
