@@ -158,6 +158,28 @@ let the model decide), sample the skipped messages for human review each week, a
 thousands of skips contain no request (0 misses in 3,000 means under ~0.1% at 95% confidence); keep watching
 the share of skipped messages for drift.
 
+## Everything we tried, in one place
+
+All on one laptop: RTX 3050 with 4 GB of VRAM (qwen3.5:4b does not fit, so Ollama runs it half on the GPU and
+half on the Ryzen 7 CPU), no API key, every Optuna trial capped at 12 minutes.
+
+| what we tried | result | kept? |
+| --- | --- | --- |
+| Thinking on vs off (qwen 4b) | same tool call, ~19 s -> ~5 s per call | off |
+| Full flow (model calls 5 tools) vs lean flow (one tool call, code does the rest) | 4.9 -> 1.0 calls, 141 -> 6.8 s per message, fewer slips | lean |
+| First lean prompt ("if unsure, notify_human") | sent chatter like "Thanks!" to a person (85% on dev) | rewritten |
+| Optuna, 12 trials x 3 sizes: context, prompt, tool text, temperature, top_p, max_tokens | 4b best; 2b and 0.8b invent bookings | 4b profile |
+| Optuna's temperature 0.8 vs 0.1 | same accuracy and speed on dev | 0.1, repeatable |
+| Calendar spells out tomorrow; agent reads "day after tomorrow" itself | held-out test 83% -> 100% | kept |
+| Classifier: 4 TF-IDF / naive Bayes variants | all ~97% grouped CV; word+char best | word+char LR |
+| Label cleaning: template majority + cross-validated flagging | 54 wrong labels found, listed in a file | kept |
+| Frozen embeddings (MiniLM, bge-small) + logistic regression | alone: 4-6 missed requests vs TF-IDF's 1; bge averaged with TF-IDF: 0 missed, 8 false alarms | not shipped (download, size) |
+| Fine-tuned bge-small, 3 runs (mixed precision, fp32, smoothing + 2 epochs), on the 3050: 5-8 s per fold, under 760 MB of GPU memory | 4-10 missed requests on new wording | not shipped |
+| ONNX int8 vs fp32 for that model | 34 vs 133 MB, ~1.5x faster on CPU, but moved some scores by up to 0.5 | - |
+| qwen 4b as the classifier vs the small model (100 messages) | 99% vs 94%; 648 ms vs 3.4 ms | small model, as a gate |
+| Gate threshold 0.10 | skipped 6 of 10 chatter messages, never a request | kept |
+| ~100 fuzz tests on every entry point | found one crash (live runs found another), both fixed | kept |
+
 ## At 1,000 members and 50 bookings a day, what breaks first
 
 1. **State lives in memory.** A restart loses tickets, proposals, the de-dup ids and the idempotency keys, so
