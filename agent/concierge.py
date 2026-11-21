@@ -157,13 +157,17 @@ class Concierge:
             for ticket in list(self.store.tickets.values()):
                 if ticket.status != "sent" or ticket.sent_at is None:
                     continue
-                waited = self.clock.minutes_since(ticket.sent_at)
-                if waited >= HANDOVER_AFTER_MINUTES:
-                    self.escalate(ticket, f"No confirmation from {ticket.vendor_id} {int(waited)} minutes after "
-                                          f"sending, despite one reminder. Please follow up by phone.")
-                elif waited >= CHASE_AFTER_MINUTES and ticket.chased_at is None:
-                    ticket.chased_at = now
-                    self._send(ticket, ticket.vendor_id, chase_message(ticket, self.house), f"chase:{ticket.ticket_id}")
+                try:  # one broken ticket must not stop the timers of all the others
+                    waited = self.clock.minutes_since(ticket.sent_at)
+                    if waited >= HANDOVER_AFTER_MINUTES:
+                        self.escalate(ticket, f"No confirmation from {ticket.vendor_id} {int(waited)} minutes after "
+                                              f"sending, despite one reminder. Please follow up by phone.")
+                    elif waited >= CHASE_AFTER_MINUTES and ticket.chased_at is None:
+                        ticket.chased_at = now  # set first: a failed reminder is never retried into spam
+                        self._send(ticket, ticket.vendor_id, chase_message(ticket, self.house),
+                                   f"chase:{ticket.ticket_id}")
+                except Exception as exc:
+                    self.escalate(ticket, f"Following up on {ticket.ticket_id} failed ({exc!r}). Please check it.")
 
     # ---- a human (or our review) calls these -----------------------------
     def pending_proposals(self) -> list[dict]:
@@ -175,7 +179,7 @@ class Concierge:
     def approve(self, proposal_id: str, approver: str) -> dict:
         """A human approved. Send it, once. A second approve, or one after a cancel, sends nothing."""
         with self.store.lock:
-            proposal = self.store.proposals.get(proposal_id)
+            proposal = self.store.proposals.get(proposal_id) if isinstance(proposal_id, str) else None
             if proposal is None:
                 return {"ok": False, "status": "not_found", "proposal_id": proposal_id}
             if proposal.status != "pending":
